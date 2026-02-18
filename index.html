@@ -1,73 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="ja">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>BPI - 更新状況</title>
-<style>
-body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:24px;line-height:1.6}
-.card{border:1px solid #ddd;border-radius:12px;padding:16px;max-width:720px}
-small{color:#666}
-pre{background:#f6f6f6;padding:12px;border-radius:10px;overflow:auto}
-table{border-collapse:collapse;width:100%;margin-top:10px}
-th,td{border-bottom:1px solid #eee;padding:8px;text-align:left;font-size:14px}
-th{background:#fafafa}
-.muted{color:#666;font-size:13px}
-</style>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>GOLDEN INDEX 完全版（ローカル版→Pages）</title>
+<link href="./styles.css" rel="stylesheet"/>
 </head>
 <body>
-<h1>BPI – BOAT PRO INDEX</h1>
-<div class="card">
-  <h2>更新ステータス</h2>
-  <p id="msg">読み込み中…</p>
-  <small>data/status.json を表示しています</small>
-  <pre id="raw"></pre>
+<header class="top">
+<div class="brand">
+<div class="logo">G</div>
+<div>
+<h1>GOLDEN INDEX <span class="sub">完全版（番組＋2年成績→指数）</span></h1>
+<div class="meta" id="meta">loading…</div><div class="held-venues" id="heldVenues"></div><div class="venue-info" id="venueInfo"></div>
 </div>
-
-<div class="card" style="margin-top:16px">
-  <h2>ダウンロード概要（ベストエフォート）</h2>
-  <div class="muted">data/summary.json / data/races_flat.json（APIの構造により 0 件のこともあります）</div>
-  <div id="summary" class="muted" style="margin-top:8px">読み込み中…</div>
 </div>
-<script>
-async function main(){
-  try{
-    const res = await fetch("./data/status.json", {cache:"no-store"});
-    if(!res.ok) throw new Error("status.json が見つからない / 読めない");
-    const j = await res.json();
-    document.getElementById("msg").textContent =
-      (j.ok ? "✅ 更新成功" : "❌ 更新失敗") + " / " + (j.updated_at || "") + " / " + (j.message || "");
-    document.getElementById("raw").textContent = JSON.stringify(j, null, 2);
-  }catch(e){
-    document.getElementById("msg").textContent = "❌ " + e.message;
-  }
-
-  // summary
-  try{
-    const res2 = await fetch("./data/summary.json", {cache:"no-store"});
-    if(!res2.ok) throw new Error("summary.json がまだありません（run_now.bat を実行してください）");
-    const s = await res2.json();
-    if(!Array.isArray(s) || s.length === 0){
-      document.getElementById("summary").textContent = "summary は 0 件です（APIの構造上、抽出できない日がある）";
-      return;
-    }
-    const rows = s.map(x => {
-      const avg = (x.payout_avg_3t ?? "—");
-      const max = (x.payout_max_3t ?? "—");
-      return `<tr><td>${x.date}</td><td>${x.races_found}</td><td>${avg}</td><td>${max}</td></tr>`;
-    }).join("");
-    document.getElementById("summary").innerHTML = `
-      <table>
-        <thead><tr><th>日付</th><th>抽出レース数</th><th>3連単 平均払戻</th><th>3連単 最大払戻</th></tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-      <div class="muted" style="margin-top:8px">※ 払戻が取れないJSONの場合は「—」になります</div>
-    `;
-  }catch(e){
-    document.getElementById("summary").textContent = "❌ " + e.message;
-  }
-}
-main();
-</script>
+<div class="controls">
+<label>日付
+        <select id="dateSel"></select>
+</label>
+<label>場
+        <select id="venueSel"></select>
+</label>
+<label>R
+        <select id="raceSel"></select>
+</label>
+<label>開催日数
+        <select id="daySel">
+<option value="1">1日目</option><option value="2">2日目</option><option value="3">3日目</option>
+<option value="4">4日目</option><option value="5">5日目</option><option value="6">6日目</option>
+</select>
+</label>
+<label>予算(円)
+        <input id="budget" min="0" step="100" type="number" value="5000"/>
+</label>
+<label class="proToggle">
+<input id="pro" type="checkbox"/>
+        Pro表示
+      </label>
+<button class="btn" id="recalc">再計算</button>
+</div>
+</header>
+<main class="wrap">
+<section class="card">
+<h2>展示入力 <span class="hint">（行/伸/回：0〜10、タイム：秒）</span></h2>
+<div id="expoTable"></div>
+<div class="note">
+        展示は「あなたの目で評価＝あなたの予想になる」。展示入力により指数が変動します（参考情報）。
+      </div>
+</section>
+<section class="grid">
+<section class="card">
+<h2>結論ダッシュボード</h2>
+<div class="dash" id="dashboard"></div>
+</section>
+<section class="card">
+<h2>ランキング</h2>
+<div id="scoreTable"></div>
+</section>
+</section>
+<section class="card">
+<h2>買い目（本命6点）</h2>
+<div id="tickets"></div>
+<div class="alloc" id="allocation"></div>
+<button class="btn ghost" id="copy">共有文コピー</button>
+<textarea class="hidden" id="shareText"></textarea>
+</section>
+</main>
+<footer class="foot">
+<div>© GOLDEN INDEX / ローカル版→Pages</div>
+<div class="small">欠損は平均補完＋不確実性補正。指数は参考情報であり結果を保証しません。</div>
+</footer>
+<script src="./app.js"></script>
 </body>
 </html>
