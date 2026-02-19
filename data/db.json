@@ -17,112 +17,85 @@
           "analysis": {
             "roughness_index": 50.0,
             "confidence_level": "A",
-            "race_pattern": "Volatile",
-            "pro_flag": true
+            "race_pattern": "Standard",
+            "pro_flag": false
           },
           "predictions": {
             "focus_free": [
-              "4-1-5",
-              "4-5-1"
+              "1-2-3",
+              "1-3-2"
             ],
             "focus_pro": [
               "4-5-1",
-              "4-5-6",
-              "4-6-5"
+              "4-5-6"
             ]
           },
           "boats": [
             {
               "boat_number": 1,
-              "player_class": "A1",
-              "national_win_rate": 6.5,
-              "recent_win_rate": 6.4,
-              "motor_2ren": 35.0,
-              "is_motor_top": false,
+              "motor_2ren": 30.0,
               "st_avg": 0.15,
-              "exhibition_time": 6.8,
-              "tags": [
-                "🛠️整備巧者（節間上昇）"
-              ],
+              "player_class": "B1",
+              "national_win_rate": 5.0,
+              "recent_win_rate": 5.0,
+              "tags": [],
               "base_index": 50.0,
               "today_index": 55.0
             },
             {
               "boat_number": 2,
-              "player_class": "B1",
-              "national_win_rate": 4.0,
-              "recent_win_rate": 4.6,
               "motor_2ren": 30.0,
-              "is_motor_top": false,
               "st_avg": 0.15,
-              "exhibition_time": 6.8,
-              "tags": [
-                "🔥急成長"
-              ],
-              "base_index": 55.0,
-              "today_index": 57.5
+              "player_class": "B1",
+              "national_win_rate": 5.0,
+              "recent_win_rate": 5.0,
+              "tags": [],
+              "base_index": 50.0,
+              "today_index": 55.0
             },
             {
               "boat_number": 3,
-              "player_class": "B1",
-              "national_win_rate": 4.0,
-              "recent_win_rate": 4.6,
               "motor_2ren": 30.0,
-              "is_motor_top": false,
-              "st_avg": 0.16,
-              "exhibition_time": 6.8,
-              "tags": [
-                "🔥急成長"
-              ],
-              "base_index": 55.0,
-              "today_index": 57.5
+              "st_avg": 0.15,
+              "player_class": "B1",
+              "national_win_rate": 5.0,
+              "recent_win_rate": 5.0,
+              "tags": [],
+              "base_index": 50.0,
+              "today_index": 55.0
             },
             {
               "boat_number": 4,
+              "motor_2ren": 30.0,
+              "st_avg": 0.15,
               "player_class": "B1",
-              "national_win_rate": 4.0,
-              "recent_win_rate": 4.6,
-              "motor_2ren": 48.0,
-              "is_motor_top": true,
-              "st_avg": 0.08,
-              "exhibition_time": 6.8,
-              "tags": [
-                "🔥急成長",
-                "🚀カド警戒(ST)",
-                "🚀カド警戒(モーター)"
-              ],
-              "base_index": 55.0,
-              "today_index": 57.5
+              "national_win_rate": 5.0,
+              "recent_win_rate": 5.0,
+              "tags": [],
+              "base_index": 50.0,
+              "today_index": 55.0
             },
             {
               "boat_number": 5,
-              "player_class": "B1",
-              "national_win_rate": 4.0,
-              "recent_win_rate": 4.6,
               "motor_2ren": 30.0,
-              "is_motor_top": false,
               "st_avg": 0.15,
-              "exhibition_time": 6.8,
-              "tags": [
-                "🔥急成長"
-              ],
-              "base_index": 55.0,
-              "today_index": 57.5
+              "player_class": "B1",
+              "national_win_rate": 5.0,
+              "recent_win_rate": 5.0,
+              "tags": [],
+              "base_index": 50.0,
+              "today_index": 55.0
             },
             {
               "boat_number": 6,
-              "player_class": "B1",
-              "national_win_rate": 4.0,
-              "recent_win_rate": 4.6,
               "motor_2ren": 30.0,
-              "is_motor_top": false,
               "st_avg": 0.15,
-              "exhibition_time": 6.8,
-              "tags": [
-                "🔥急成長"
-              ],
-              "base_index": 55.0,
-              "today_index": 57.5
+              "player_class": "B1",
+              "national_win_rate": 5.0,
+              "recent_win_rate": 5.0,
+              "tags": [],
+              "base_index": 50.0,
+              "today_index": 55.0
             }
           ]
         }
