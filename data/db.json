@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-19T18:00:00+09:00",
+  "updated_at": "2026-02-20T00:03:20.177677",
   "meta": {
     "status": "success",
     "errors": []
@@ -33,6 +33,7 @@
           "boats": [
             {
               "boat_number": 1,
+              "name": "取得エラー1",
               "motor_2ren": 30.0,
               "st_avg": 0.15,
               "player_class": "B1",
@@ -44,6 +45,7 @@
             },
             {
               "boat_number": 2,
+              "name": "取得エラー2",
               "motor_2ren": 30.0,
               "st_avg": 0.15,
               "player_class": "B1",
@@ -55,6 +57,7 @@
             },
             {
               "boat_number": 3,
+              "name": "取得エラー3",
               "motor_2ren": 30.0,
               "st_avg": 0.15,
               "player_class": "B1",
@@ -66,6 +69,7 @@
             },
             {
               "boat_number": 4,
+              "name": "取得エラー4",
               "motor_2ren": 30.0,
               "st_avg": 0.15,
               "player_class": "B1",
@@ -77,6 +81,7 @@
             },
             {
               "boat_number": 5,
+              "name": "取得エラー5",
               "motor_2ren": 30.0,
               "st_avg": 0.15,
               "player_class": "B1",
@@ -88,6 +93,7 @@
             },
             {
               "boat_number": 6,
+              "name": "取得エラー6",
               "motor_2ren": 30.0,
               "st_avg": 0.15,
               "player_class": "B1",
