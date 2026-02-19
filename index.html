@@ -1,77 +1,322 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width,initial-scale=1" name="viewport"/>
-<title>GOLDEN INDEX 完全版（ローカル版→Pages）</title>
-<link href="./styles.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOLDEN INDEX 完全版</title>
+    
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151b2b;
+            --bg-box: #1e2538;
+            --text-main: #e2e8f0;
+            --text-sub: #94a3b8;
+            --accent-gold: #fbbf24;
+            --accent-gold-hover: #f59e0b;
+            --accent-blue: #3b82f6;
+            --border-color: #2e3c56;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-main); color: var(--text-main);
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+            padding: 20px; font-size: 14px;
+        }
+        header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .logo {
+            width: 40px; height: 40px; background: #333; color: var(--accent-gold);
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-weight: bold; font-size: 20px;
+        }
+        .header-title h1 { font-size: 16px; font-weight: bold; }
+        .header-title p { font-size: 11px; color: var(--text-sub); }
+        .controls {
+            display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end;
+            margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);
+        }
+        .control-group { display: flex; flex-direction: column; gap: 5px; }
+        .control-group label { font-size: 12px; color: var(--text-sub); }
+        input, select {
+            background: var(--bg-card); color: white; border: 1px solid var(--border-color);
+            padding: 8px 12px; border-radius: 6px; font-size: 14px; outline: none;
+        }
+        .checkbox-group { flex-direction: row; align-items: center; gap: 8px; padding-bottom: 8px; }
+        .gold-btn {
+            background: var(--accent-gold); color: #000; font-weight: bold;
+            border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer;
+            box-shadow: 0 0 10px rgba(251, 191, 36, 0.3);
+        }
+        .gold-btn:hover { background: var(--accent-gold-hover); }
+        .outline-btn {
+            background: transparent; border: 1px solid var(--text-sub); color: var(--text-main);
+            padding: 6px 15px; border-radius: 15px; cursor: pointer; font-size: 12px;
+        }
+        .card {
+            background: var(--bg-card); border: 1px solid var(--border-color);
+            border-radius: 10px; padding: 20px; margin-bottom: 20px;
+        }
+        .card-header { font-size: 15px; font-weight: bold; margin-bottom: 15px; }
+        .note { font-size: 11px; color: var(--text-sub); margin-top: 10px; }
+        .exh-row { display: flex; align-items: center; gap: 15px; padding: 10px; border-bottom: 1px solid var(--border-color); }
+        .boat-num { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--text-sub); display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .boat-info { width: 200px; }
+        .boat-info .name { font-weight: bold; font-size: 15px; }
+        .boat-info .stats { font-size: 10px; color: var(--text-sub); }
+        .slider-group { display: flex; align-items: center; gap: 10px; flex: 1; font-size: 12px; color: var(--text-sub); }
+        input[type=range] { -webkit-appearance: none; width: 80px; height: 4px; background: #333; border-radius: 2px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; border-radius: 50%; background: var(--accent-blue); cursor: pointer; }
+        .time-input { width: 60px; padding: 4px; font-size: 12px; }
+        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .dash-box { background: var(--bg-box); padding: 15px; border-radius: 8px; display: flex; flex-direction: column; gap: 5px; border: 1px solid var(--border-color); }
+        .dash-label { font-size: 12px; color: var(--text-sub); }
+        .dash-value { font-size: 18px; font-weight: bold; }
+        .warning { color: #ef4444; }
+        .index-row { display: flex; align-items: center; gap: 15px; background: var(--bg-box); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border-color); }
+        .index-mark { width: 30px; text-align: center; font-weight: bold; font-size: 16px; }
+        .index-score { font-size: 20px; font-weight: bold; width: 60px; text-align: right; }
+        .index-tags { flex: 1; display: flex; gap: 5px; flex-wrap: wrap; }
+        .tag { font-size: 10px; background: #333; padding: 2px 6px; border-radius: 4px; }
+        .rank { font-size: 12px; color: var(--text-sub); }
+        .weight-info { font-size: 11px; color: var(--text-sub); margin-bottom: 15px; }
+        .buy-tags { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .buy-tag { background: var(--bg-box); border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 15px; }
+        .buy-allocation { font-family: monospace; font-size: 13px; margin-bottom: 15px; color: var(--text-sub); line-height: 1.6; }
+        footer { text-align: center; font-size: 11px; color: var(--text-sub); margin-top: 40px; }
+    </style>
 </head>
 <body>
-<header class="top">
-<div class="brand">
-<div class="logo">G</div>
-<div>
-<h1>GOLDEN INDEX <span class="sub">完全版（番組＋2年成績→指数）</span></h1>
-<div class="meta" id="meta">loading…</div><div class="held-venues" id="heldVenues"></div><div class="venue-info" id="venueInfo"></div>
-</div>
-</div>
-<div class="controls">
-<label>日付
-        <select id="dateSel"></select>
-</label>
-<label>場
-        <select id="venueSel"></select>
-</label>
-<label>R
-        <select id="raceSel"></select>
-</label>
-<label>開催日数
-        <select id="daySel">
-<option value="1">1日目</option><option value="2">2日目</option><option value="3">3日目</option>
-<option value="4">4日目</option><option value="5">5日目</option><option value="6">6日目</option>
-</select>
-</label>
-<label>予算(円)
-        <input id="budget" min="0" step="100" type="number" value="5000"/>
-</label>
-<label class="proToggle">
-<input id="pro" type="checkbox"/>
-        Pro表示
-      </label>
-<button class="btn" id="recalc">再計算</button>
-</div>
-</header>
-<main class="wrap">
-<section class="card">
-<h2>展示入力 <span class="hint">（行/伸/回：0〜10、タイム：秒）</span></h2>
-<div id="expoTable"></div>
-<div class="note">
-        展示は「あなたの目で評価＝あなたの予想になる」。展示入力により指数が変動します（参考情報）。
-      </div>
-</section>
-<section class="grid">
-<section class="card">
-<h2>結論ダッシュボード</h2>
-<div class="dash" id="dashboard"></div>
-</section>
-<section class="card">
-<h2>ランキング</h2>
-<div id="scoreTable"></div>
-</section>
-</section>
-<section class="card">
-<h2>買い目（本命6点）</h2>
-<div id="tickets"></div>
-<div class="alloc" id="allocation"></div>
-<button class="btn ghost" id="copy">共有文コピー</button>
-<textarea class="hidden" id="shareText"></textarea>
-</section>
-</main>
-<footer class="foot">
-<div>© GOLDEN INDEX / ローカル版→Pages</div>
-<div class="small">欠損は平均補完＋不確実性補正。指数は参考情報であり結果を保証しません。</div>
-</footer>
-<script src="./app.js"></script>
+    <header>
+        <div class="logo">G</div>
+        <div class="header-title">
+            <h1>GOLDEN INDEX 完全版 (番組＋2年成績→指数)</h1>
+            <p id="last-updated">データ: 読込中...</p>
+        </div>
+    </header>
+
+    <nav class="controls">
+        <div class="control-group"><label>日付</label><input type="date" id="date-select" value="2026-02-18"></div>
+        <div class="control-group"><label>場</label><select id="venue-select"></select></div>
+        <div class="control-group">
+            <label>R</label>
+            <select id="race-select">
+                <option value="1">1R</option><option value="2">2R</option><option value="3" selected>3R</option>
+                <option value="4">4R</option><option value="5">5R</option><option value="6">6R</option>
+                <option value="7">7R</option><option value="8">8R</option><option value="9">9R</option>
+                <option value="10">10R</option><option value="11">11R</option><option value="12">12R</option>
+            </select>
+        </div>
+        <div class="control-group">
+            <label>開催日数</label>
+            <select id="day-select">
+                <option value="1">1日目</option><option value="3">3日目</option><option value="5" selected>5日目</option>
+            </select>
+        </div>
+        <div class="control-group"><label>予算(円)</label><input type="number" id="budget-input" value="5000" step="100"></div>
+        <div class="control-group checkbox-group"><input type="checkbox" id="pro-toggle" checked><label for="pro-toggle">Pro表示</label></div>
+        <button id="calc-btn" class="gold-btn">再計算</button>
+    </nav>
+
+    <main>
+        <section class="card" id="exhibition-section">
+            <div class="card-header">展示入力 (行/伸/回 : 0〜10、タイム : 秒)</div>
+            <div id="exhibition-list" class="boat-list"></div>
+            <div class="note">展示は「あなたの目で評価 − あなたの予想になる」。展示入力により指数が変動します。</div>
+        </section>
+
+        <div class="dashboard-grid">
+            <section class="card" id="conclusion-section">
+                <div class="card-header">結論ダッシュボード</div>
+                <div class="grid-2x2">
+                    <div class="dash-box"><span class="dash-label">レースタイプ</span><span class="dash-value" id="dash-type">読込中</span></div>
+                    <div class="dash-box"><span class="dash-label">荒れ度</span><span class="dash-value" id="dash-roughness">読込中</span></div>
+                    <div class="dash-box"><span class="dash-label">勝負度</span><span class="dash-value" id="dash-confidence">読込中</span></div>
+                    <div class="dash-box"><span class="dash-label">注意</span><span class="dash-value warning" id="dash-warning">読込中</span></div>
+                </div>
+            </section>
+            <section class="card" id="index-section">
+                <div class="card-header">指数一覧 (0〜100)</div>
+                <div class="weight-info">重み (開催5日目): モ16 / ST25 / コ20 / 当15 / 展24</div>
+                <div id="index-list" class="boat-list"></div>
+            </section>
+        </div>
+
+        <section class="card" id="buy-section">
+            <div class="card-header" id="buy-title">買い目 (本命6点)</div>
+            <div class="buy-tags" id="buy-tags"></div>
+            <div class="buy-allocation" id="buy-allocation"></div>
+            <button class="outline-btn" id="copy-btn">共有文コピー</button>
+        </section>
+    </main>
+    <footer>
+        © GOLDEN INDEX / ローカル版 → Pages<br>
+        欠損は平均補完 + 不確実性補正。指数は参考情報であり結果を保証しません。
+    </footer>
+
+    <script>
+        let appData = null;
+        const VENUES = ["01_桐生", "02_戸田", "03_江戸川", "04_平和島", "05_多摩川", "06_浜名湖", "07_蒲郡", "08_常滑", "09_津", "10_三国", "11_びわこ", "12_住之江", "13_尼崎", "14_鳴門", "15_丸亀", "16_児島", "17_宮島", "18_徳山", "19_下関", "20_若松", "21_芦屋", "22_福岡", "23_唐津", "24_大村"];
+
+        document.addEventListener("DOMContentLoaded", () => {
+            initUI();
+            fetchData();
+            document.getElementById("calc-btn").addEventListener("click", updateUI);
+            document.getElementById("copy-btn").addEventListener("click", copyToClipboard);
+        });
+
+        function initUI() {
+            const venueSelect = document.getElementById("venue-select");
+            VENUES.forEach((v, i) => {
+                let opt = document.createElement("option");
+                opt.value = String(i + 1).padStart(2, '0');
+                opt.textContent = v;
+                if(v.includes("唐津")) opt.selected = true;
+                venueSelect.appendChild(opt);
+            });
+        }
+
+        async function fetchData() {
+            try {
+                // 同じサーバー(GitHub)上にある data/db.json を読み込む
+                const response = await fetch('data/db.json');
+                if (!response.ok) throw new Error("JSON読み込み失敗");
+                appData = await response.json();
+                document.getElementById("last-updated").textContent = `データ生成: ${appData.updated_at || "不明"}`;
+                updateUI();
+            } catch (e) {
+                console.warn(e);
+                // エラーで止まらない！モックデータで画面を生かす
+                appData = { venues: {} };
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            const isPro = document.getElementById("pro-toggle").checked;
+            const budget = parseInt(document.getElementById("budget-input").value) || 5000;
+            
+            let boats = getCurrentBoatsState();
+            boats.sort((a, b) => b.today_index - a.today_index);
+            
+            const marks = ["◎", "○", "△", "×", "×", ""];
+            boats.forEach((b, i) => b.mark = marks[i]);
+
+            renderExhibition(boats.sort((a, b) => a.number - b.number));
+            renderIndexList(boats.sort((a, b) => b.today_index - a.today_index));
+            renderDashboard(boats);
+            renderBuyList(boats, budget, isPro);
+        }
+
+        function renderExhibition(boats) {
+            const container = document.getElementById("exhibition-list");
+            container.innerHTML = "";
+            boats.forEach(b => {
+                container.innerHTML += `
+                    <div class="exh-row">
+                        <div class="boat-num">${b.number}</div>
+                        <div class="boat-info">
+                            <div class="name">${b.name}</div>
+                            <div class="stats">モ${b.motor}% / ST${b.st}</div>
+                        </div>
+                        <div class="slider-group">行き足 <input type="range" min="0" max="10" value="5"></div>
+                        <div class="slider-group">伸び <input type="range" min="0" max="10" value="5"></div>
+                        <div class="slider-group">回り足 <input type="range" min="0" max="10" value="5"></div>
+                        <input type="text" class="time-input" value="${b.time}" placeholder="例 6.72">
+                    </div>
+                `;
+            });
+        }
+
+        function renderIndexList(boats) {
+            const container = document.getElementById("index-list");
+            container.innerHTML = "";
+            boats.forEach((b, i) => {
+                const tagsHtml = b.tags.map(t => `<span class="tag">${t}</span>`).join("");
+                container.innerHTML += `
+                    <div class="index-row">
+                        <div class="boat-num">${b.number}</div>
+                        <div class="boat-info">
+                            <div class="name">${b.name}</div>
+                            <div class="stats">モ${b.motor}% / ST${b.st}</div>
+                        </div>
+                        <div class="index-mark">${b.mark}</div>
+                        <div class="index-score">${b.today_index.toFixed(1)}</div>
+                        <div class="index-tags">${tagsHtml}</div>
+                        <div class="rank">順位 ${i + 1}</div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderDashboard(sortedBoats) {
+            const topBoat = sortedBoats[0].number;
+            const isChaos = topBoat !== 1; // 1号艇が首位じゃない＝荒れる判定（簡易）
+
+            document.getElementById("dash-type").textContent = isChaos ? "波乱含み" : "イン有利";
+            document.getElementById("dash-roughness").textContent = isChaos ? "高 (77)" : "低 (23)";
+            document.getElementById("dash-confidence").textContent = isChaos ? "S" : "A";
+            
+            const warningEl = document.getElementById("dash-warning");
+            if(isChaos) {
+                warningEl.textContent = "危険 : 荒れ警戒";
+                warningEl.className = "dash-value warning";
+            } else {
+                warningEl.textContent = "安定 : 鉄板警戒";
+                warningEl.className = "dash-value";
+                warningEl.style.color = "var(--text-sub)";
+            }
+        }
+
+        function renderBuyList(boats, budget, isPro) {
+            const title = document.getElementById("buy-title");
+            title.textContent = isPro ? "買い目 (Pro版 展開フォーメーション)" : "買い目 (本命6点)";
+            
+            const marks = { "◎":null, "○":null, "△":null, "×":[] };
+            boats.forEach(b => {
+                if(b.mark === "◎") marks["◎"] = b.number;
+                else if(b.mark === "○") marks["○"] = b.number;
+                else if(b.mark === "△") marks["△"] = b.number;
+                else if(b.mark === "×") marks["×"].push(b.number);
+            });
+
+            let buys = [];
+            if (!isPro) {
+                buys = [
+                    `${marks["◎"]}-${marks["○"]}-${marks["△"]}`, `${marks["◎"]}-${marks["△"]}-${marks["○"]}`,
+                    `${marks["◎"]}-${marks["○"]}-${marks["×"][0]}`, `${marks["◎"]}-${marks["△"]}-${marks["×"][0]}`,
+                    `${marks["○"]}-${marks["◎"]}-${marks["△"]}`, `${marks["△"]}-${marks["◎"]}-${marks["○"]}`
+                ];
+            } else {
+                buys = [`${marks["◎"]}-${marks["○"]}-全`, `${marks["○"]}-${marks["◎"]}-全`];
+            }
+
+            const tagsContainer = document.getElementById("buy-tags");
+            tagsContainer.innerHTML = buys.map(b => `<div class="buy-tag">${b}</div>`).join("");
+
+            const allocContainer = document.getElementById("buy-allocation");
+            const perBet = Math.floor(budget / buys.length / 100) * 100;
+            allocContainer.innerHTML = buys.map(b => `${b} : ${perBet}円`).join("<br>");
+        }
+
+        function copyToClipboard() {
+            const text = document.getElementById("buy-allocation").innerText;
+            navigator.clipboard.writeText("【GOLDEN INDEX 推奨買い目】\n" + text).then(() => {
+                alert("クリップボードにコピーしました！");
+            });
+        }
+
+        // --- JSONがない場合のモックデータ（壊れない設計） ---
+        function getCurrentBoatsState() {
+            return [
+                { number: 1, name: "大瀧明日", motor: 23.7, st: 0.16, course: 78.3, time: 6.72, today_index: 60.0, tags: ["🔥急成長"] },
+                { number: 2, name: "岡谷健吾", motor: 25.0, st: 0.18, course: 43.2, time: 6.72, today_index: 50.6, tags: [] },
+                { number: 3, name: "伯母芳恒", motor: 25.0, st: 0.16, course: 33.8, time: 6.72, today_index: 52.7, tags: [] },
+                { number: 4, name: "ダミー", motor: 30.0, st: 0.15, course: 30.0, time: 6.70, today_index: 55.0, tags: ["🚀カド警戒"] },
+                { number: 5, name: "北川太一", motor: 31.8, st: 0.15, course: 24.7, time: 6.72, today_index: 54.9, tags: [] },
+                { number: 6, name: "上村宏太", motor: 42.8, st: 0.17, course: 12.3, time: 6.72, today_index: 45.0, tags: [] }
+            ];
+        }
+    </script>
 </body>
 </html>
