@@ -12,17 +12,27 @@
         .logo { width: 40px; height: 40px; background: #333; color: var(--accent-gold); display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 20px; }
         .header-title h1 { font-size: 16px; font-weight: bold; }
         .header-title p { font-size: 11px; color: var(--text-sub); }
+        
+        /* ボーターズ風 全24場パネルUI */
+        .venue-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 20px; }
+        @media (max-width: 600px) { .venue-grid { grid-template-columns: repeat(4, 1fr); } }
+        .venue-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 0; text-align: center; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
+        .venue-btn:hover { background: var(--bg-box); }
+        .venue-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
+        .venue-btn.no-data { color: var(--text-sub); opacity: 0.4; font-weight: normal; } /* データがない場は暗くする */
+        
         .controls { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
         .control-group { display: flex; flex-direction: column; gap: 5px; }
         .control-group label { font-size: 12px; color: var(--text-sub); }
+        .day-display { font-size: 16px; font-weight: bold; color: var(--accent-gold); padding-top: 4px; padding-bottom: 4px; }
         input, select { background: var(--bg-card); color: white; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 14px; outline: none; cursor: pointer; }
         .checkbox-group { flex-direction: row; align-items: center; gap: 8px; padding-bottom: 8px; }
         .gold-btn { background: var(--accent-gold); color: #000; font-weight: bold; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; box-shadow: 0 0 10px rgba(251, 191, 36, 0.3); transition: 0.2s;}
         .gold-btn:hover { background: var(--accent-gold-hover); transform: scale(1.05); }
         .outline-btn { background: transparent; border: 1px solid var(--text-sub); color: var(--text-main); padding: 6px 15px; border-radius: 15px; cursor: pointer; font-size: 12px; }
+        
         .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
         .card-header { font-size: 15px; font-weight: bold; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
-        .note { font-size: 11px; color: var(--text-sub); margin-top: 10px; }
         .exh-row { display: flex; align-items: center; gap: 15px; padding: 10px; border-bottom: 1px solid var(--border-color); }
         .boat-num { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--text-sub); display: flex; align-items: center; justify-content: center; font-weight: bold; }
         .boat-info { width: 180px; }
@@ -32,12 +42,14 @@
         input[type=range] { -webkit-appearance: none; width: 70px; height: 4px; background: #333; border-radius: 2px; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%; background: var(--accent-blue); cursor: pointer; }
         .time-input { width: 50px; padding: 4px; font-size: 12px; text-align: center; }
+        
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .dash-box { background: var(--bg-box); padding: 15px; border-radius: 8px; display: flex; flex-direction: column; gap: 5px; border: 1px solid var(--border-color); }
         .dash-label { font-size: 12px; color: var(--text-sub); }
         .dash-value { font-size: 18px; font-weight: bold; transition: 0.3s; }
         .warning { color: #ef4444; }
+        
         .index-row { display: flex; align-items: center; gap: 15px; background: var(--bg-box); padding: 12px; border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border-color); transition: all 0.3s; }
         .index-mark { width: 30px; text-align: center; font-weight: bold; font-size: 16px; }
         .index-score { font-size: 20px; font-weight: bold; width: 60px; text-align: right; color: var(--accent-gold); }
@@ -45,6 +57,7 @@
         .tag { font-size: 10px; background: #333; padding: 2px 6px; border-radius: 4px; }
         .rank { font-size: 12px; color: var(--text-sub); }
         .weight-info { font-size: 11px; color: var(--text-sub); margin-bottom: 15px; }
+        
         .buy-tags { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         .buy-tag { background: var(--bg-box); border: 1px solid var(--border-color); padding: 5px 12px; border-radius: 15px; font-weight: bold; }
         .buy-allocation { font-family: monospace; font-size: 13px; margin-bottom: 15px; color: var(--text-sub); line-height: 1.6; }
@@ -61,11 +74,12 @@
         </div>
     </header>
 
+    <div class="venue-grid" id="venue-grid"></div>
+
     <nav class="controls">
-        <div class="control-group"><label>日付</label><input type="date" id="date-select" value="2026-02-20"></div>
-        <div class="control-group"><label>場</label><select id="venue-select"></select></div>
+        <div class="control-group"><label>日付 (自動取得)</label><input type="date" id="date-select"></div>
         <div class="control-group">
-            <label>R</label>
+            <label>R (レース)</label>
             <select id="race-select">
                 <option value="1">1R</option><option value="2">2R</option><option value="3">3R</option>
                 <option value="4">4R</option><option value="5">5R</option><option value="6">6R</option>
@@ -75,9 +89,7 @@
         </div>
         <div class="control-group">
             <label>開催日数</label>
-            <select id="day-select">
-                <option value="1">1日目</option><option value="3">3日目</option><option value="5" selected>5日目</option>
-            </select>
+            <div id="day-display" class="day-display">-</div>
         </div>
         <div class="control-group"><label>予算(円)</label><input type="number" id="budget-input" value="5000" step="100"></div>
         <div class="control-group checkbox-group"><input type="checkbox" id="pro-toggle" checked><label for="pro-toggle">Pro表示</label></div>
@@ -85,12 +97,12 @@
     </nav>
 
     <div id="no-data-area" class="no-data-msg" style="display: none;">
-        この会場・レースのデータはありません。（別の場を選択してください）
+        この会場・レースのデータはありません。（別の場またはレースを選択してください）
     </div>
 
     <main id="main-content">
         <section class="card" id="exhibition-section">
-            <div class="card-header"><span id="race-title-display">戸田 1R</span> 展示入力 (行/伸/回 : 0〜10)</div>
+            <div class="card-header"><span id="race-title-display"></span> 展示入力 (行/伸/回 : 0〜10)</div>
             <div id="exhibition-list" class="boat-list"></div>
         </section>
 
@@ -122,41 +134,85 @@
     <script>
         let appData = null;
         let currentBoats = []; 
-        const VENUES = ["01_桐生", "02_戸田", "03_江戸川", "04_平和島", "05_多摩川", "06_浜名湖", "07_蒲郡", "08_常滑", "09_津", "10_三国", "11_びわこ", "12_住之江", "13_尼崎", "14_鳴門", "15_丸亀", "16_児島", "17_宮島", "18_徳山", "19_下関", "20_若松", "21_芦屋", "22_福岡", "23_唐津", "24_大村"];
+        let currentVenueCode = null; // 現在選択中の会場
+        
+        const VENUES = [
+            "01_桐生", "02_戸田", "03_江戸川", "04_平和島", "05_多摩川", "06_浜名湖",
+            "07_蒲郡", "08_常滑", "09_津", "10_三国", "11_びわこ", "12_住之江",
+            "13_尼崎", "14_鳴門", "15_丸亀", "16_児島", "17_宮島", "18_徳山",
+            "19_下関", "20_若松", "21_芦屋", "22_福岡", "23_唐津", "24_大村"
+        ];
 
         document.addEventListener("DOMContentLoaded", () => {
-            initUI();
             fetchData();
             
-            // プルダウンを変更した瞬間にデータを切り替える
-            document.getElementById("venue-select").addEventListener("change", () => loadRaceData());
             document.getElementById("race-select").addEventListener("change", () => loadRaceData());
-            
             document.getElementById("calc-btn").addEventListener("click", () => updateUI(true));
-            document.getElementById("day-select").addEventListener("change", () => updateUI(true));
             document.getElementById("pro-toggle").addEventListener("change", () => updateUI(false));
             document.getElementById("copy-btn").addEventListener("click", copyToClipboard);
         });
 
-        function initUI() {
-            const venueSelect = document.getElementById("venue-select");
+        // 24場パネルの生成
+        function buildVenueGrid() {
+            const grid = document.getElementById("venue-grid");
+            grid.innerHTML = "";
+            
             VENUES.forEach((v, i) => {
-                let opt = document.createElement("option");
-                opt.value = String(i + 1).padStart(2, '0');
-                opt.textContent = v;
-                venueSelect.appendChild(opt);
+                const code = String(i + 1).padStart(2, '0');
+                const name = v.split("_")[1];
+                const btn = document.createElement("div");
+                btn.className = "venue-btn";
+                btn.textContent = name;
+                btn.dataset.code = code;
+                
+                // データがあるか判定してクラスを付ける
+                if (appData && appData.venues[code] && appData.venues[code].status === "active") {
+                    btn.classList.remove("no-data");
+                } else {
+                    btn.classList.add("no-data");
+                }
+                
+                if (code === currentVenueCode) btn.classList.add("active");
+                
+                btn.addEventListener("click", () => {
+                    currentVenueCode = code;
+                    buildVenueGrid(); // ボタンのアクティブ状態を更新
+                    loadRaceData();
+                });
+                grid.appendChild(btn);
             });
         }
 
         async function fetchData() {
             try {
-                const response = await fetch('data/db.json');
+                // キャッシュを防ぐためにタイムスタンプを付与
+                const response = await fetch('data/db.json?t=' + new Date().getTime());
                 if (!response.ok) throw new Error("JSON読み込み失敗");
                 appData = await response.json();
                 
                 const d = new Date(appData.updated_at);
                 document.getElementById("last-updated").textContent = `データ生成: ${d.toLocaleString('ja-JP')}`;
                 
+                // 日付を自動最新化
+                const year = d.getFullYear();
+                const month = String(d.getMonth() + 1).padStart(2, '0');
+                const day = String(d.getDate()).padStart(2, '0');
+                document.getElementById("date-select").value = `${year}-${month}-${day}`;
+                
+                // 最初のデータがある会場を自動選択
+                if (!currentVenueCode) {
+                    let firstActive = "01";
+                    for (let i = 1; i <= 24; i++) {
+                        let code = String(i).padStart(2, '0');
+                        if (appData.venues[code] && appData.venues[code].status === "active") {
+                            firstActive = code;
+                            break;
+                        }
+                    }
+                    currentVenueCode = firstActive;
+                }
+                
+                buildVenueGrid();
                 loadRaceData();
             } catch (e) {
                 console.error("データ読み込みエラー:", e);
@@ -165,20 +221,24 @@
         }
 
         function loadRaceData() {
-            if (!appData) return;
+            if (!appData || !currentVenueCode) return;
             
-            const venueCode = document.getElementById("venue-select").value;
             const raceNum = parseInt(document.getElementById("race-select").value);
-            const venueName = VENUES[parseInt(venueCode)-1].split("_")[1];
+            const venueName = VENUES[parseInt(currentVenueCode)-1].split("_")[1];
             
             document.getElementById("race-title-display").textContent = `${venueName} ${raceNum}R`;
             
-            const venueData = appData.venues[venueCode];
+            const venueData = appData.venues[currentVenueCode];
             
             if (!venueData || venueData.status !== "active") {
+                document.getElementById("day-display").textContent = "-";
                 showNoData();
                 return;
             }
+            
+            // 開催日数の自動反映
+            const dayOfEvent = venueData.day_of_event || 1;
+            document.getElementById("day-display").textContent = `${dayOfEvent}日目`;
             
             const raceData = venueData.races.find(r => r.race_number === raceNum);
             if (!raceData) {
@@ -212,7 +272,10 @@
         function updateUI(isRecalculate) {
             const isPro = document.getElementById("pro-toggle").checked;
             const budget = parseInt(document.getElementById("budget-input").value) || 5000;
-            const dayOfEvent = parseInt(document.getElementById("day-select").value);
+            
+            // JSONから自動取得した開催日数を使う
+            const venueData = appData.venues[currentVenueCode];
+            const dayOfEvent = venueData ? (venueData.day_of_event || 1) : 1;
 
             if (isRecalculate) {
                 const rows = document.querySelectorAll(".exh-row");
@@ -223,13 +286,19 @@
                     const mawari = parseInt(sliders[2].value);
                     const exhScore = ((ikiasi + nobi + mawari) / 30) * 100;
                     
+                    // 開催日数による重み付けの自動変化
                     let weightBase = 0.5, weightExh = 0.5;
-                    if(dayOfEvent <= 2) { weightBase = 0.7; weightExh = 0.3; }
-                    else if(dayOfEvent >= 5) { weightBase = 0.3; weightExh = 0.7; }
+                    if(dayOfEvent <= 2) { weightBase = 0.7; weightExh = 0.3; } // 初日は基礎データ重視
+                    else if(dayOfEvent >= 5) { weightBase = 0.3; weightExh = 0.7; } // 後半は展示重視
                     
-                    document.getElementById("weight-info").textContent = `重み: 基礎 ${weightBase*100}% / 展示 ${weightExh*100}%`;
+                    document.getElementById("weight-info").textContent = `重みバランス: 基礎 ${weightBase*100}% / 展示 ${weightExh*100}%`;
                     currentBoats[idx].today_index = (currentBoats[idx].base_index * weightBase) + (exhScore * weightExh);
                 });
+            } else {
+                let weightBase = 0.5, weightExh = 0.5;
+                if(dayOfEvent <= 2) { weightBase = 0.7; weightExh = 0.3; }
+                else if(dayOfEvent >= 5) { weightBase = 0.3; weightExh = 0.7; }
+                document.getElementById("weight-info").textContent = `重みバランス: 基礎 ${weightBase*100}% / 展示 ${weightExh*100}%`;
             }
 
             let sortedBoats = [...currentBoats].sort((a, b) => b.today_index - a.today_index);
