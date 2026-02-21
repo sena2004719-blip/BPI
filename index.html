@@ -19,29 +19,37 @@
         @media (max-width: 600px) { .venue-grid { grid-template-columns: repeat(4, 1fr); } }
         .venue-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 0; text-align: center; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
         .venue-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
-        .venue-btn.no-data { background: transparent; border-color: transparent; color: #2d3748; pointer-events: none; box-shadow: none; }
+        
+        /* 👻 【修正】非開催場を「強制的に」暗くする強力なCSS */
+        .venue-btn.no-data { 
+            background: rgba(255, 255, 255, 0.02) !important; 
+            border-color: transparent !important; 
+            color: #374151 !important; /* 背景に溶け込む暗いグレー */
+            pointer-events: none; 
+            box-shadow: none; 
+        }
         
         .controls { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
         .control-group { display: flex; flex-direction: column; gap: 5px; }
         .control-group label { font-size: 12px; color: var(--text-sub); }
         .day-display { font-size: 16px; font-weight: bold; color: var(--accent-gold); padding-top: 4px; padding-bottom: 4px; }
-        input[type="date"], select, input[type="number"] { background: var(--bg-card); color: white; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 14px; outline: none; cursor: pointer; }
+        input[type="date"], select, input[type="number"], input[type="text"] { background: var(--bg-card); color: white; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 14px; outline: none; }
         
         .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
         .card-header { font-size: 15px; font-weight: bold; margin-bottom: 15px; }
         
-        /* 🚤 【修正】出走表エリアのレイアウト（左右半々） */
+        /* 🚤 【修正】出走表エリアのレイアウト（左50% / 右50%） */
         .exh-row { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; /* 左右を50%ずつに分割 */
+            display: flex; 
             gap: 20px; 
             padding: 15px; 
             border-bottom: 1px solid var(--border-color); 
             align-items: center;
         }
         
-        /* 左側：選手情報コンテナ */
+        /* 左側（赤枠）：選手情報（幅50%） */
         .boat-left-container {
+            flex: 1; /* 幅の半分を占める */
             display: flex;
             align-items: center;
             gap: 15px;
@@ -55,7 +63,7 @@
         .c5 { background: #eab308; color: #000000; border-color: #ca8a04; }
         .c6 { background: #22c55e; color: #ffffff; border-color: #15803d; }
 
-        .boat-info { flex: 1; } /* 幅指定を削除し、自然に広げる */
+        .boat-info { flex: 1; }
         .boat-info .name { font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;}
         .p-class { font-size: 12px; color: var(--text-sub); font-weight: normal; }
         .f-penalty { color: #ef4444; font-weight: bold; font-size: 13px; border: 1px solid #ef4444; padding: 1px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.1); }
@@ -65,27 +73,40 @@
         .data-label { color: var(--text-sub); }
         .data-val { font-weight: bold; color: var(--text-main); font-family: monospace; font-size: 13px;}
 
-        /* 🎚️ 【修正】右側：スライダーコンテナ（幅を広げて見やすく） */
-        .sliders-container { 
+        /* 右側（青枠）：展示入力エリア（幅50%） */
+        .exh-right-container {
+            flex: 1; /* 幅の残り半分を占める */
+            display: flex;
+            gap: 15px; /* スライダーと数値入力の隙間 */
+        }
+
+        /* 青枠の左半分：スライダー群 */
+        .sliders-area { 
+            flex: 1; 
             display: flex; 
             flex-direction: column; 
             gap: 10px; 
-            width: 100%; /* 親グリッドいっぱいに広げる */
-            flex-shrink: 0; 
             background: var(--bg-box); 
-            padding: 15px; 
+            padding: 12px; 
             border-radius: 8px; 
             border: 1px solid var(--border-color);
         }
         .slider-group { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-sub); }
-        input[type=range] { 
-            -webkit-appearance: none; 
-            width: 100%; /* コンテナ幅に合わせる */
-            height: 6px; 
-            background: #333; 
-            border-radius: 3px; 
-        }
+        input[type=range] { -webkit-appearance: none; width: 75%; height: 6px; background: #333; border-radius: 3px; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent-blue); cursor: pointer; }
+
+        /* 青枠の右半分：数値入力（展示タイムなど） */
+        .inputs-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 10px;
+        }
+        .input-wrap { display: flex; flex-direction: column; gap: 4px; }
+        .input-wrap label { font-size: 11px; color: var(--text-sub); }
+        .time-input { width: 100%; text-align: center; font-weight: bold; font-family: monospace; font-size: 16px; padding: 10px; border-radius: 6px; background: rgba(0,0,0,0.3);}
         
         /* 下部：指数ランキングエリア */
         .index-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: var(--bg-box); border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border-color); }
@@ -101,10 +122,10 @@
         .buy-tag { background: var(--bg-box); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 16px; }
         
         /* スマホ対応 */
-        @media (max-width: 768px) {
-            .exh-row { grid-template-columns: 1fr; gap: 15px; } /* スマホでは縦積みに */
+        @media (max-width: 900px) {
+            .exh-row { flex-direction: column; }
             .boat-left-container { width: 100%; }
-            .sliders-container { width: 100%; }
+            .exh-right-container { width: 100%; }
             .dashboard-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -137,7 +158,7 @@
 
     <main id="main-content">
         <section class="card" id="exhibition-section">
-            <div class="card-header"><span id="race-title-display"></span> 展示入力 (行/伸/回)</div>
+            <div class="card-header"><span id="race-title-display"></span> 展示データ入力</div>
             <div id="exhibition-list"></div>
         </section>
 
@@ -191,10 +212,13 @@
                 btn.className = "venue-btn";
                 btn.textContent = v.split("_")[1];
                 
-                if (appData && appData.venues[code] && appData.venues[code].status === "active") {
+                // 【修正】確実にその場にレースデータが存在するかを厳密にチェック
+                const hasData = appData && appData.venues[code] && appData.venues[code].races && appData.venues[code].races.length > 0;
+                
+                if (hasData) {
                     btn.classList.remove("no-data");
                 } else {
-                    btn.classList.add("no-data");
+                    btn.classList.add("no-data"); // 強制ゴースト化
                 }
                 
                 if (code === currentVenueCode) btn.classList.add("active");
@@ -214,7 +238,7 @@
                 if (!currentVenueCode) {
                     for (let i = 1; i <= 24; i++) {
                         let code = String(i).padStart(2, '0');
-                        if (appData.venues[code] && appData.venues[code].status === "active") {
+                        if (appData.venues[code] && appData.venues[code].races && appData.venues[code].races.length > 0) {
                             currentVenueCode = code; break;
                         }
                     }
@@ -228,7 +252,7 @@
             const raceNum = parseInt(document.getElementById("race-select").value);
             const venueData = appData.venues[currentVenueCode];
             
-            if (!venueData || venueData.status !== "active") {
+            if (!venueData || !venueData.races || venueData.races.length === 0) {
                 document.getElementById("main-content").style.display = "none";
                 return;
             }
@@ -240,13 +264,16 @@
             document.getElementById("day-display").textContent = `${venueData.day_of_event}日目`;
             document.getElementById("race-title-display").textContent = `${VENUES[parseInt(currentVenueCode)-1].split("_")[1]} ${raceNum}R`;
             
-            currentBoats = raceData.boats.map(b => ({
+            // 【修正】ここで必ず「枠番順（1〜6）」に並べ替えてから保持する！
+            let rawBoats = raceData.boats.map(b => ({
                 number: b.boat_number, name: b.name, player_class: b.player_class || "",
                 f_count: b.f_count || "",
                 nat_win: b.national_win_rate || 0.0, local_win: b.local_win_rate || 0.0,
-                motor: b.motor_2ren, st: b.st_avg,
+                motor: b.motor_2ren, st: b.st_avg, time: b.exhibition_time || 6.70,
                 base_index: b.base_index, today_index: b.today_index, tags: b.tags || []
             }));
+            
+            currentBoats = rawBoats.sort((a, b) => a.number - b.number);
 
             renderExhibition(currentBoats);
             updateUI(false); 
@@ -263,11 +290,13 @@
                     const sliders = row.querySelectorAll("input[type=range]");
                     const exhScore = ((parseInt(sliders[0].value) + parseInt(sliders[1].value) + parseInt(sliders[2].value)) / 30) * 100;
                     let wB = dayOfEvent <= 2 ? 0.7 : 0.3, wE = 1.0 - wB;
+                    // 枠番順に固定されているので idx で正しく更新できる
                     currentBoats[idx].today_index = (currentBoats[idx].base_index * wB) + (exhScore * wE);
                     document.getElementById("weight-info").textContent = `重みバランス: 基礎 ${Math.round(wB*100)}% / 展示 ${Math.round(wE*100)}%`;
                 });
             }
 
+            // ランキング表示用に、点数順にソートした別配列を作る
             let sortedBoats = [...currentBoats].sort((a, b) => b.today_index - a.today_index);
             const marks = ["◎", "○", "△", "×", "×", ""];
             sortedBoats.forEach((b, i) => b.mark = marks[i]);
@@ -281,12 +310,8 @@
             const container = document.getElementById("exhibition-list");
             container.innerHTML = "";
             
-            // 【修正】ここで必ず枠番順（1号艇〜6号艇）にソートして表示する
-            const sortedByBoatNum = [...boats].sort((a, b) => a.number - b.number);
-
-            sortedByBoatNum.forEach((b, i) => {
+            boats.forEach((b, i) => {
                 const fTag = b.f_count ? `<span class="f-penalty">【${b.f_count}】</span>` : "";
-                // 【修正】左側（選手情報）と右側（スライダー）のコンテナに分ける
                 container.innerHTML += `
                     <div class="exh-row">
                         <div class="boat-left-container">
@@ -296,15 +321,24 @@
                                 <div class="data-grid">
                                     <div class="data-item"><span class="data-label">全国勝率:</span><span class="data-val">${b.nat_win.toFixed(2)}</span></div>
                                     <div class="data-item"><span class="data-label">当地勝率:</span><span class="data-val">${b.local_win.toFixed(2)}</span></div>
-                                    <div class="data-item"><span class="data-label">モーター2連率:</span><span class="data-val">${b.motor.toFixed(1)}%</span></div>
+                                    <div class="data-item"><span class="data-label">モーター:</span><span class="data-val">${b.motor.toFixed(1)}%</span></div>
                                     <div class="data-item"><span class="data-label">平均ST:</span><span class="data-val">${b.st.toFixed(2)}</span></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="sliders-container">
-                            <div class="slider-group">行 <input type="range" min="0" max="10" value="5"></div>
-                            <div class="slider-group">伸 <input type="range" min="0" max="10" value="5"></div>
-                            <div class="slider-group">回 <input type="range" min="0" max="10" value="5"></div>
+
+                        <div class="exh-right-container">
+                            <div class="sliders-area">
+                                <div class="slider-group">行 <input type="range" min="0" max="10" value="5"></div>
+                                <div class="slider-group">伸 <input type="range" min="0" max="10" value="5"></div>
+                                <div class="slider-group">回 <input type="range" min="0" max="10" value="5"></div>
+                            </div>
+                            <div class="inputs-area">
+                                <div class="input-wrap">
+                                    <label>展示タイム</label>
+                                    <input type="number" step="0.01" class="time-input" value="${b.time}">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 `;
