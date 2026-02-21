@@ -6,53 +6,33 @@
     <title>GOLDEN INDEX 完全版</title>
     <style>
         :root { 
-            --bg-main: #0b0f19; 
-            --bg-card: #151b2b; 
-            --bg-box: #1e2538; 
-            --text-main: #e2e8f0; 
-            --text-sub: #94a3b8; 
-            --accent-gold: #fbbf24; 
-            --accent-gold-hover: #f59e0b; 
-            --accent-blue: #3b82f6; 
-            --border-color: #2e3c56; 
+            --bg-main: #0b0f19; --bg-card: #151b2b; --bg-box: #1e2538; 
+            --text-main: #e2e8f0; --text-sub: #94a3b8; 
+            --accent-gold: #fbbf24; --accent-blue: #3b82f6; --border-color: #2e3c56; 
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: var(--bg-main); color: var(--text-main); font-family: 'Helvetica Neue', Arial, sans-serif; padding: 20px; font-size: 14px; }
         header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
         .logo { width: 40px; height: 40px; background: #333; color: var(--accent-gold); display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 20px; }
-        .header-title h1 { font-size: 16px; font-weight: bold; }
-        .header-title p { font-size: 11px; color: var(--text-sub); }
         
-        /* ① 開催場パネル（ゴースト同化デザイン） */
         .venue-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 20px; }
         @media (max-width: 600px) { .venue-grid { grid-template-columns: repeat(4, 1fr); } }
         .venue-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 0; text-align: center; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
-        .venue-btn:hover { background: var(--bg-box); }
         .venue-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
-        /* 開催していない場は背景に同化させる魔法 */
-        .venue-btn.no-data { 
-            background: transparent; 
-            border-color: transparent; 
-            color: #2d3748; /* 背景よりほんの少し明るいだけのグレー */
-            pointer-events: none; /* タップもクリックも一切効かなくする */
-            box-shadow: none;
-        }
+        .venue-btn.no-data { background: transparent; border-color: transparent; color: #2d3748; pointer-events: none; box-shadow: none; }
         
         .controls { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
         .control-group { display: flex; flex-direction: column; gap: 5px; }
         .control-group label { font-size: 12px; color: var(--text-sub); }
         .day-display { font-size: 16px; font-weight: bold; color: var(--accent-gold); padding-top: 4px; padding-bottom: 4px; }
         input[type="date"], select, input[type="number"] { background: var(--bg-card); color: white; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 14px; outline: none; cursor: pointer; }
-        .checkbox-group { flex-direction: row; align-items: center; gap: 8px; padding-bottom: 8px; }
         
         .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
-        .card-header { font-size: 15px; font-weight: bold; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;}
+        .card-header { font-size: 15px; font-weight: bold; margin-bottom: 15px; }
         
-        /* ② ボート情報レイアウト ＆ 競艇カラー */
-        .exh-row, .index-row { display: flex; align-items: center; gap: 15px; padding: 12px; border-bottom: 1px solid var(--border-color); flex-wrap: wrap; }
-        .index-row { background: var(--bg-box); border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border-color); border-bottom: none; transition: all 0.3s; }
-        
-        .boat-num { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--text-sub); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.5);}
+        /* 🚤 ガチ仕様レイアウト（上部：絵文字なし、2段組みデータ） */
+        .exh-row { display: flex; align-items: center; gap: 15px; padding: 12px; border-bottom: 1px solid var(--border-color); }
+        .boat-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.5); border: 1px solid;}
         .c1 { background: #ffffff; color: #000000; border-color: #cbd5e1; }
         .c2 { background: #111111; color: #ffffff; border-color: #333333; }
         .c3 { background: #ef4444; color: #ffffff; border-color: #b91c1c; }
@@ -60,64 +40,50 @@
         .c5 { background: #eab308; color: #000000; border-color: #ca8a04; }
         .c6 { background: #22c55e; color: #ffffff; border-color: #15803d; }
 
-        .boat-info { flex: 1; min-width: 160px; }
-        .boat-info .name { font-weight: bold; font-size: 16px; display: flex; align-items: baseline; gap: 6px; }
-        .boat-info .p-class { font-size: 11px; color: var(--text-sub); font-weight: normal; }
-        .hidden-data { font-size: 11px; color: #64748b; margin-top: 4px; display: flex; gap: 10px; }
+        .boat-info { flex: 1; min-width: 250px; }
+        .boat-info .name { font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;}
+        .p-class { font-size: 12px; color: var(--text-sub); font-weight: normal; }
+        .f-penalty { color: #ef4444; font-weight: bold; font-size: 13px; border: 1px solid #ef4444; padding: 1px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.1); }
         
-        /* 激アツ絵文字タグのデザイン */
+        /* 📊 2段組みの詳しいデータ表示 */
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);}
+        .data-item { display: flex; justify-content: space-between; align-items: center; }
+        .data-label { color: var(--text-sub); }
+        .data-val { font-weight: bold; color: var(--text-main); font-family: monospace; font-size: 13px;}
+
+        /* 🎚️ スライダー縦積み（コンパクト化） */
+        .sliders-container { display: flex; flex-direction: column; gap: 8px; width: 120px; flex-shrink: 0; background: var(--bg-box); padding: 8px; border-radius: 6px; border: 1px solid var(--border-color);}
+        .slider-group { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sub); }
+        input[type=range] { -webkit-appearance: none; width: 80px; height: 6px; background: #333; border-radius: 3px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent-blue); cursor: pointer; }
+        
+        /* 👑 下部：激アツ絵文字タグエリア */
+        .index-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: var(--bg-box); border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border-color); }
         .index-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; width: 100%; }
-        .tag { font-size: 11px; background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); font-weight: bold; white-space: nowrap;}
-        
-        /* ③ スマホ向けスライダー調整 */
-        .slider-group { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-sub); flex: 1; min-width: 90px; }
-        input[type=range] { -webkit-appearance: none; width: 100%; max-width: 80px; height: 6px; background: #333; border-radius: 3px; }
-        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--accent-blue); cursor: pointer; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
-        .time-input { width: 50px; padding: 4px; font-size: 12px; text-align: center; border-radius: 4px; border: 1px solid var(--border-color); background: var(--bg-card); color: white;}
-        
+        .tag { font-size: 11px; background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); font-weight: bold;}
         .index-mark { width: 30px; text-align: center; font-weight: bold; font-size: 18px; }
         .index-score { font-size: 22px; font-weight: bold; width: 60px; text-align: right; color: var(--accent-gold); }
         .rank { font-size: 12px; color: var(--text-sub); font-weight: bold; }
         
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .grid-2x2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
         .dash-box { background: var(--bg-box); padding: 15px; border-radius: 8px; display: flex; flex-direction: column; gap: 5px; border: 1px solid var(--border-color); }
-        .dash-label { font-size: 12px; color: var(--text-sub); }
-        .dash-value { font-size: 18px; font-weight: bold; transition: 0.3s; }
-        .warning { color: #ef4444; }
-        .weight-info { font-size: 11px; color: var(--text-sub); margin-bottom: 15px; }
-        
         .buy-tags { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .buy-tag { background: var(--bg-box); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-        .buy-allocation { font-family: monospace; font-size: 14px; margin-bottom: 15px; color: var(--text-sub); line-height: 1.6; }
-        .outline-btn { background: transparent; border: 1px solid var(--text-sub); color: var(--text-main); padding: 8px 15px; border-radius: 15px; cursor: pointer; font-size: 12px; transition: 0.2s;}
-        .outline-btn:hover { background: rgba(255,255,255,0.1); }
+        .buy-tag { background: var(--bg-box); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 16px; }
         
-        .no-data-msg { padding: 40px; text-align: center; color: var(--text-sub); font-size: 16px; background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border-color); margin-top: 20px; }
-        
-        /* ④ スマホ完全対応 (縦積みレイアウト) */
         @media (max-width: 768px) {
-            body { padding: 10px; }
             .dashboard-grid { grid-template-columns: 1fr; }
-            .exh-row { flex-direction: row; gap: 10px; padding: 15px 10px; }
-            .boat-info { width: 100%; flex: none; margin-bottom: 5px; }
-            .slider-group { flex: 1; min-width: 30%; }
-            .time-input { display: none; /* スマホでは展示タイム入力を隠してスッキリさせる */ }
-            
-            .index-row { position: relative; padding-right: 10px; }
-            .index-score { position: absolute; right: 15px; top: 15px; }
-            .index-mark { position: absolute; right: 85px; top: 18px; }
-            .rank { position: absolute; right: 15px; bottom: 15px; }
+            .exh-row { flex-direction: column; align-items: flex-start; gap: 10px; position: relative;}
+            .boat-num { position: absolute; top: 12px; left: 12px; }
+            .boat-info { width: 100%; padding-left: 45px; }
+            .sliders-container { width: 100%; flex-direction: row; justify-content: space-between; padding: 10px; }
+            .slider-group { flex-direction: column; gap: 4px; }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">G</div>
-        <div class="header-title">
-            <h1>GOLDEN INDEX 完全版</h1>
-            <p id="last-updated">データ: 読込中...</p>
-        </div>
+        <div class="header-title"><h1>GOLDEN INDEX 完全版</h1><p id="last-updated">データ: 読込中...</p></div>
     </header>
 
     <div class="venue-grid" id="venue-grid"></div>
@@ -133,47 +99,38 @@
                 <option value="10">10R</option><option value="11">11R</option><option value="12">12R</option>
             </select>
         </div>
-        <div class="control-group">
-            <label>開催日数</label>
-            <div id="day-display" class="day-display">-</div>
-        </div>
+        <div class="control-group"><label>開催日数</label><div id="day-display" class="day-display">-</div></div>
         <div class="control-group"><label>予算(円)</label><input type="number" id="budget-input" value="5000" step="100"></div>
-        <div class="control-group checkbox-group"><input type="checkbox" id="pro-toggle" checked><label for="pro-toggle">Pro表示</label></div>
-        <span style="font-size: 11px; color: var(--accent-blue); padding-bottom:8px;">※展示は動かすと自動計算されます</span>
+        <div class="control-group checkbox-group" style="display: flex; align-items: center; gap: 5px;">
+            <input type="checkbox" id="pro-toggle" checked><label for="pro-toggle">Pro表示</label>
+        </div>
     </nav>
-
-    <div id="no-data-area" class="no-data-msg" style="display: none;">
-        この会場・レースのデータはありません。（別の場またはレースを選択してください）
-    </div>
 
     <main id="main-content">
         <section class="card" id="exhibition-section">
             <div class="card-header"><span id="race-title-display"></span> 展示入力 (行/伸/回)</div>
-            <div id="exhibition-list" class="boat-list"></div>
+            <div id="exhibition-list"></div>
         </section>
 
         <div class="dashboard-grid">
-            <section class="card" id="conclusion-section">
+            <section class="card">
                 <div class="card-header">結論ダッシュボード</div>
-                <div class="grid-2x2">
-                    <div class="dash-box"><span class="dash-label">レースタイプ</span><span class="dash-value" id="dash-type">-</span></div>
-                    <div class="dash-box"><span class="dash-label">荒れ度</span><span class="dash-value" id="dash-roughness">-</span></div>
-                    <div class="dash-box"><span class="dash-label">勝負度</span><span class="dash-value" id="dash-confidence">-</span></div>
-                    <div class="dash-box"><span class="dash-label">注意</span><span class="dash-value warning" id="dash-warning">-</span></div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="dash-box"><span style="font-size:12px;color:var(--text-sub);">レースタイプ</span><span id="dash-type" style="font-size:18px;font-weight:bold;">-</span></div>
+                    <div class="dash-box"><span style="font-size:12px;color:var(--text-sub);">注意喚起</span><span id="dash-warning" style="font-size:18px;font-weight:bold;color:#ef4444;">-</span></div>
                 </div>
             </section>
-            <section class="card" id="index-section">
+            <section class="card">
                 <div class="card-header">当日指数ランキング</div>
-                <div class="weight-info" id="weight-info"></div>
-                <div id="index-list" class="boat-list"></div>
+                <div id="weight-info" style="font-size: 11px; color: var(--text-sub); margin-bottom: 10px;"></div>
+                <div id="index-list"></div>
             </section>
         </div>
 
-        <section class="card" id="buy-section">
+        <section class="card">
             <div class="card-header" id="buy-title">買い目</div>
             <div class="buy-tags" id="buy-tags"></div>
-            <div class="buy-allocation" id="buy-allocation"></div>
-            <button class="outline-btn" id="copy-btn">共有文コピー</button>
+            <div id="buy-allocation" style="font-family: monospace; font-size: 14px; margin-bottom: 15px; color: var(--text-sub); line-height: 1.6;"></div>
         </section>
     </main>
 
@@ -191,38 +148,28 @@
 
         document.addEventListener("DOMContentLoaded", () => {
             fetchData();
-            
             document.getElementById("race-select").addEventListener("change", () => loadRaceData());
             document.getElementById("pro-toggle").addEventListener("change", () => updateUI(false));
             document.getElementById("budget-input").addEventListener("input", () => updateUI(false));
-            document.getElementById("copy-btn").addEventListener("click", copyToClipboard);
         });
 
         function buildVenueGrid() {
             const grid = document.getElementById("venue-grid");
             grid.innerHTML = "";
-            
             VENUES.forEach((v, i) => {
                 const code = String(i + 1).padStart(2, '0');
-                const name = v.split("_")[1];
                 const btn = document.createElement("div");
                 btn.className = "venue-btn";
-                btn.textContent = name;
-                btn.dataset.code = code;
+                btn.textContent = v.split("_")[1];
                 
                 if (appData && appData.venues[code] && appData.venues[code].status === "active") {
                     btn.classList.remove("no-data");
                 } else {
-                    btn.classList.add("no-data"); // 開催してない場はゴースト化
+                    btn.classList.add("no-data"); // 完璧なゴースト化
                 }
                 
                 if (code === currentVenueCode) btn.classList.add("active");
-                
-                btn.addEventListener("click", () => {
-                    currentVenueCode = code;
-                    buildVenueGrid();
-                    loadRaceData();
-                });
+                btn.addEventListener("click", () => { currentVenueCode = code; buildVenueGrid(); loadRaceData(); });
                 grid.appendChild(btn);
             });
         }
@@ -230,115 +177,67 @@
         async function fetchData() {
             try {
                 const response = await fetch('data/db.json?t=' + new Date().getTime());
-                if (!response.ok) throw new Error("JSON読み込み失敗");
                 appData = await response.json();
                 
                 const d = new Date(appData.updated_at);
                 document.getElementById("last-updated").textContent = `データ生成: ${d.toLocaleString('ja-JP')}`;
                 
-                const year = d.getFullYear();
-                const month = String(d.getMonth() + 1).padStart(2, '0');
-                const day = String(d.getDate()).padStart(2, '0');
-                document.getElementById("date-select").value = `${year}-${month}-${day}`;
-                
                 if (!currentVenueCode) {
-                    let firstActive = "01";
                     for (let i = 1; i <= 24; i++) {
                         let code = String(i).padStart(2, '0');
                         if (appData.venues[code] && appData.venues[code].status === "active") {
-                            firstActive = code;
-                            break;
+                            currentVenueCode = code; break;
                         }
                     }
-                    currentVenueCode = firstActive;
                 }
-                
-                buildVenueGrid();
-                loadRaceData();
-            } catch (e) {
-                console.error("データ読み込みエラー:", e);
-                showNoData();
-            }
+                buildVenueGrid(); loadRaceData();
+            } catch (e) { console.error(e); }
         }
 
         function loadRaceData() {
             if (!appData || !currentVenueCode) return;
-            
             const raceNum = parseInt(document.getElementById("race-select").value);
-            const venueName = VENUES[parseInt(currentVenueCode)-1].split("_")[1];
-            
-            document.getElementById("race-title-display").textContent = `${venueName} ${raceNum}R`;
-            
             const venueData = appData.venues[currentVenueCode];
             
             if (!venueData || venueData.status !== "active") {
-                document.getElementById("day-display").textContent = "-";
-                showNoData();
+                document.getElementById("main-content").style.display = "none";
                 return;
             }
-            
-            const dayOfEvent = venueData.day_of_event || 1;
-            document.getElementById("day-display").textContent = `${dayOfEvent}日目`;
             
             const raceData = venueData.races.find(r => r.race_number === raceNum);
-            if (!raceData) {
-                showNoData();
-                return;
-            }
+            if (!raceData) { document.getElementById("main-content").style.display = "none"; return; }
             
-            document.getElementById("no-data-area").style.display = "none";
             document.getElementById("main-content").style.display = "block";
+            document.getElementById("day-display").textContent = `${venueData.day_of_event}日目`;
+            document.getElementById("race-title-display").textContent = `${VENUES[parseInt(currentVenueCode)-1].split("_")[1]} ${raceNum}R`;
             
-            // 階級(player_class)やST(st)もJSONからしっかり取り込む
+            // F情報や詳しい数値をすべて取り込む
             currentBoats = raceData.boats.map(b => ({
-                number: b.boat_number,
-                name: b.name,
-                player_class: b.player_class || "",
-                motor: b.motor_2ren,
-                st: b.st_avg,
-                time: b.exhibition_time,
-                base_index: b.base_index,
-                today_index: b.today_index,
-                tags: b.tags || []
+                number: b.boat_number, name: b.name, player_class: b.player_class || "",
+                f_count: b.f_count || "",
+                nat_win: b.national_win_rate || 0.0, local_win: b.local_win_rate || 0.0,
+                motor: b.motor_2ren, st: b.st_avg,
+                base_index: b.base_index, today_index: b.today_index, tags: b.tags || []
             }));
 
             renderExhibition(currentBoats);
             updateUI(false); 
         }
-        
-        function showNoData() {
-            document.getElementById("no-data-area").style.display = "block";
-            document.getElementById("main-content").style.display = "none";
-        }
 
-        // リアルタイム計算ロジック
         function updateUI(isRecalculate) {
             const isPro = document.getElementById("pro-toggle").checked;
             const budget = parseInt(document.getElementById("budget-input").value) || 5000;
-            const venueData = appData.venues[currentVenueCode];
-            const dayOfEvent = venueData ? (venueData.day_of_event || 1) : 1;
+            const dayOfEvent = appData.venues[currentVenueCode].day_of_event || 1;
 
             if (isRecalculate) {
                 const rows = document.querySelectorAll(".exh-row");
                 rows.forEach((row, idx) => {
                     const sliders = row.querySelectorAll("input[type=range]");
-                    const ikiasi = parseInt(sliders[0].value);
-                    const nobi = parseInt(sliders[1].value);
-                    const mawari = parseInt(sliders[2].value);
-                    const exhScore = ((ikiasi + nobi + mawari) / 30) * 100;
-                    
-                    let weightBase = 0.5, weightExh = 0.5;
-                    if(dayOfEvent <= 2) { weightBase = 0.7; weightExh = 0.3; } 
-                    else if(dayOfEvent >= 5) { weightBase = 0.3; weightExh = 0.7; }
-                    
-                    document.getElementById("weight-info").textContent = `重みバランス: 基礎 ${Math.round(weightBase*100)}% / 展示 ${Math.round(weightExh*100)}%`;
-                    currentBoats[idx].today_index = (currentBoats[idx].base_index * weightBase) + (exhScore * weightExh);
+                    const exhScore = ((parseInt(sliders[0].value) + parseInt(sliders[1].value) + parseInt(sliders[2].value)) / 30) * 100;
+                    let wB = dayOfEvent <= 2 ? 0.7 : 0.3, wE = 1.0 - wB;
+                    currentBoats[idx].today_index = (currentBoats[idx].base_index * wB) + (exhScore * wE);
+                    document.getElementById("weight-info").textContent = `重みバランス: 基礎 ${Math.round(wB*100)}% / 展示 ${Math.round(wE*100)}%`;
                 });
-            } else {
-                let weightBase = 0.5, weightExh = 0.5;
-                if(dayOfEvent <= 2) { weightBase = 0.7; weightExh = 0.3; }
-                else if(dayOfEvent >= 5) { weightBase = 0.3; weightExh = 0.7; }
-                document.getElementById("weight-info").textContent = `重みバランス: 基礎 ${Math.round(weightBase*100)}% / 展示 ${Math.round(weightExh*100)}%`;
             }
 
             let sortedBoats = [...currentBoats].sort((a, b) => b.today_index - a.today_index);
@@ -354,40 +253,42 @@
             const container = document.getElementById("exhibition-list");
             container.innerHTML = "";
             boats.forEach((b, i) => {
-                const cClass = "c" + b.number; // 枠番カラー
+                const fTag = b.f_count ? `<span class="f-penalty">【${b.f_count}】</span>` : "";
+                // 上部の展示エリアは絵文字なし、2段組みのガチデータのみ！
                 container.innerHTML += `
                     <div class="exh-row">
-                        <div class="boat-num ${cClass}">${b.number}</div>
+                        <div class="boat-num c${b.number}">${b.number}</div>
                         <div class="boat-info">
-                            <div class="name">${b.name} <span class="p-class">(${b.player_class})</span></div>
-                            <div class="hidden-data"><span>AVG ST: ${b.st.toFixed(2)}</span> <span>モ: ${b.motor}%</span></div>
+                            <div class="name">${b.name} <span class="p-class">(${b.player_class})</span> ${fTag}</div>
+                            <div class="data-grid">
+                                <div class="data-item"><span class="data-label">全国勝率:</span><span class="data-val">${b.nat_win.toFixed(2)}</span></div>
+                                <div class="data-item"><span class="data-label">当地勝率:</span><span class="data-val">${b.local_win.toFixed(2)}</span></div>
+                                <div class="data-item"><span class="data-label">モーター2連率:</span><span class="data-val">${b.motor.toFixed(1)}%</span></div>
+                                <div class="data-item"><span class="data-label">平均ST:</span><span class="data-val">${b.st.toFixed(2)}</span></div>
+                            </div>
                         </div>
-                        <div class="slider-group">行<input type="range" min="0" max="10" value="5" id="iki-${i}"></div>
-                        <div class="slider-group">伸<input type="range" min="0" max="10" value="5" id="nob-${i}"></div>
-                        <div class="slider-group">回<input type="range" min="0" max="10" value="5" id="maw-${i}"></div>
-                        <input type="text" class="time-input" value="${b.time}">
+                        <div class="sliders-container">
+                            <div class="slider-group">行 <input type="range" min="0" max="10" value="5"></div>
+                            <div class="slider-group">伸 <input type="range" min="0" max="10" value="5"></div>
+                            <div class="slider-group">回 <input type="range" min="0" max="10" value="5"></div>
+                        </div>
                     </div>
                 `;
             });
-
-            // スライダーを動かした瞬間に updateUI(true) を走らせる魔法
-            const inputs = container.querySelectorAll("input[type=range]");
-            inputs.forEach(input => {
-                input.addEventListener("input", () => updateUI(true));
-            });
+            container.querySelectorAll("input[type=range]").forEach(inp => inp.addEventListener("input", () => updateUI(true)));
         }
 
         function renderIndexList(boats) {
             const container = document.getElementById("index-list");
             container.innerHTML = "";
             boats.forEach((b, i) => {
-                const cClass = "c" + b.number;
+                // 下部のランキングエリアにだけ絵文字タグを爆発させる！
                 const tagsHtml = b.tags.map(t => `<span class="tag">${t}</span>`).join("");
                 container.innerHTML += `
                     <div class="index-row">
-                        <div class="boat-num ${cClass}">${b.number}</div>
-                        <div class="boat-info">
-                            <div class="name">${b.name} <span class="p-class">(${b.player_class})</span></div>
+                        <div class="boat-num c${b.number}" style="width:30px;height:30px;font-size:14px;">${b.number}</div>
+                        <div style="flex:1;">
+                            <div style="font-weight:bold;">${b.name} <span style="font-size:11px;font-weight:normal;color:var(--text-sub);">(${b.player_class})</span></div>
                             <div class="index-tags">${tagsHtml}</div>
                         </div>
                         <div class="index-mark">${b.mark}</div>
@@ -398,59 +299,22 @@
             });
         }
 
-        function renderDashboard(sortedBoats) {
-            const topBoat = sortedBoats[0].number;
-            const isChaos = topBoat !== 1;
-
+        function renderDashboard(boats) {
+            const isChaos = boats[0].number !== 1;
             document.getElementById("dash-type").textContent = isChaos ? "波乱含み" : "イン有利";
-            document.getElementById("dash-roughness").textContent = isChaos ? "高 (77)" : "低 (23)";
-            document.getElementById("dash-confidence").textContent = isChaos ? "S (勝負)" : "A (堅実)";
-            
-            const warningEl = document.getElementById("dash-warning");
-            if(isChaos) {
-                warningEl.textContent = `危険: ${topBoat}号艇まくり警戒`;
-                warningEl.className = "dash-value warning";
-            } else {
-                warningEl.textContent = "安定: 逃げ展開";
-                warningEl.className = "dash-value";
-                warningEl.style.color = "var(--text-sub)";
-            }
+            const warn = document.getElementById("dash-warning");
+            warn.textContent = isChaos ? `危険: ${boats[0].number}号艇まくり警戒` : "安定: 逃げ展開";
+            warn.style.color = isChaos ? "#ef4444" : "var(--text-sub)";
         }
 
         function renderBuyList(boats, budget, isPro) {
-            const title = document.getElementById("buy-title");
-            title.textContent = isPro ? "買い目 (Pro展開フォーメーション)" : "買い目 (本命6点)";
-            
-            const marks = { "◎":null, "○":null, "△":null, "×":[] };
-            boats.forEach(b => {
-                if(b.mark === "◎") marks["◎"] = b.number;
-                else if(b.mark === "○") marks["○"] = b.number;
-                else if(b.mark === "△") marks["△"] = b.number;
-                else if(b.mark === "×") marks["×"].push(b.number);
-            });
-
-            let buys = [];
-            if (!isPro) {
-                buys = [
-                    `${marks["◎"]}-${marks["○"]}-${marks["△"]}`, `${marks["◎"]}-${marks["△"]}-${marks["○"]}`,
-                    `${marks["◎"]}-${marks["○"]}-${marks["×"][0]}`, `${marks["◎"]}-${marks["△"]}-${marks["×"][0]}`,
-                    `${marks["○"]}-${marks["◎"]}-${marks["△"]}`, `${marks["△"]}-${marks["◎"]}-${marks["○"]}`
-                ];
-            } else {
-                buys = [`${marks["◎"]}-${marks["○"]}-全`, `${marks["○"]}-${marks["◎"]}-全`, `${marks["◎"]}-${marks["△"]}-全`];
-            }
-
-            const tagsContainer = document.getElementById("buy-tags");
-            tagsContainer.innerHTML = buys.map(b => `<div class="buy-tag">${b}</div>`).join("");
-
-            const allocContainer = document.getElementById("buy-allocation");
-            const perBet = Math.floor(budget / buys.length / 100) * 100;
-            allocContainer.innerHTML = buys.map(b => `${b} : ${perBet}円`).join("<br>");
-        }
-
-        function copyToClipboard() {
-            const text = document.getElementById("buy-allocation").innerText;
-            navigator.clipboard.writeText("【GOLDEN INDEX 推奨買い目】\n" + text).then(() => alert("コピーしました！"));
+            const m = {"◎":null, "○":null, "△":null, "×":[]};
+            boats.forEach(b => { if(m[b.mark]===null) m[b.mark]=b.number; else if(b.mark==="×") m["×"].push(b.number); });
+            const buys = isPro ? [`${m["◎"]}-${m["○"]}-全`, `${m["○"]}-${m["◎"]}-全`, `${m["◎"]}-${m["△"]}-全`] 
+                               : [`${m["◎"]}-${m["○"]}-${m["△"]}`, `${m["◎"]}-${m["△"]}-${m["○"]}`, `${m["◎"]}-${m["○"]}-${m["×"][0]}`];
+            document.getElementById("buy-tags").innerHTML = buys.map(b => `<div class="buy-tag">${b}</div>`).join("");
+            const pb = Math.floor(budget / buys.length / 100) * 100;
+            document.getElementById("buy-allocation").innerHTML = buys.map(b => `${b} : ${pb}円`).join("<br>");
         }
     </script>
 </body>
