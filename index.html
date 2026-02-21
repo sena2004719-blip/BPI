@@ -30,8 +30,23 @@
         .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
         .card-header { font-size: 15px; font-weight: bold; margin-bottom: 15px; }
         
-        /* 🚤 ガチ仕様レイアウト（上部：絵文字なし、2段組みデータ） */
-        .exh-row { display: flex; align-items: center; gap: 15px; padding: 12px; border-bottom: 1px solid var(--border-color); }
+        /* 🚤 【修正】出走表エリアのレイアウト（左右半々） */
+        .exh-row { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; /* 左右を50%ずつに分割 */
+            gap: 20px; 
+            padding: 15px; 
+            border-bottom: 1px solid var(--border-color); 
+            align-items: center;
+        }
+        
+        /* 左側：選手情報コンテナ */
+        .boat-left-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .boat-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.5); border: 1px solid;}
         .c1 { background: #ffffff; color: #000000; border-color: #cbd5e1; }
         .c2 { background: #111111; color: #ffffff; border-color: #333333; }
@@ -40,24 +55,39 @@
         .c5 { background: #eab308; color: #000000; border-color: #ca8a04; }
         .c6 { background: #22c55e; color: #ffffff; border-color: #15803d; }
 
-        .boat-info { flex: 1; min-width: 250px; }
+        .boat-info { flex: 1; } /* 幅指定を削除し、自然に広げる */
         .boat-info .name { font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;}
         .p-class { font-size: 12px; color: var(--text-sub); font-weight: normal; }
         .f-penalty { color: #ef4444; font-weight: bold; font-size: 13px; border: 1px solid #ef4444; padding: 1px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.1); }
         
-        /* 📊 2段組みの詳しいデータ表示 */
         .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);}
         .data-item { display: flex; justify-content: space-between; align-items: center; }
         .data-label { color: var(--text-sub); }
         .data-val { font-weight: bold; color: var(--text-main); font-family: monospace; font-size: 13px;}
 
-        /* 🎚️ スライダー縦積み（コンパクト化） */
-        .sliders-container { display: flex; flex-direction: column; gap: 8px; width: 120px; flex-shrink: 0; background: var(--bg-box); padding: 8px; border-radius: 6px; border: 1px solid var(--border-color);}
-        .slider-group { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-sub); }
-        input[type=range] { -webkit-appearance: none; width: 80px; height: 6px; background: #333; border-radius: 3px; }
+        /* 🎚️ 【修正】右側：スライダーコンテナ（幅を広げて見やすく） */
+        .sliders-container { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 10px; 
+            width: 100%; /* 親グリッドいっぱいに広げる */
+            flex-shrink: 0; 
+            background: var(--bg-box); 
+            padding: 15px; 
+            border-radius: 8px; 
+            border: 1px solid var(--border-color);
+        }
+        .slider-group { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-sub); }
+        input[type=range] { 
+            -webkit-appearance: none; 
+            width: 100%; /* コンテナ幅に合わせる */
+            height: 6px; 
+            background: #333; 
+            border-radius: 3px; 
+        }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent-blue); cursor: pointer; }
         
-        /* 👑 下部：激アツ絵文字タグエリア */
+        /* 下部：指数ランキングエリア */
         .index-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: var(--bg-box); border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border-color); }
         .index-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; width: 100%; }
         .tag { font-size: 11px; background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); font-weight: bold;}
@@ -70,13 +100,12 @@
         .buy-tags { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
         .buy-tag { background: var(--bg-box); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 20px; font-weight: bold; font-size: 16px; }
         
+        /* スマホ対応 */
         @media (max-width: 768px) {
+            .exh-row { grid-template-columns: 1fr; gap: 15px; } /* スマホでは縦積みに */
+            .boat-left-container { width: 100%; }
+            .sliders-container { width: 100%; }
             .dashboard-grid { grid-template-columns: 1fr; }
-            .exh-row { flex-direction: column; align-items: flex-start; gap: 10px; position: relative;}
-            .boat-num { position: absolute; top: 12px; left: 12px; }
-            .boat-info { width: 100%; padding-left: 45px; }
-            .sliders-container { width: 100%; flex-direction: row; justify-content: space-between; padding: 10px; }
-            .slider-group { flex-direction: column; gap: 4px; }
         }
     </style>
 </head>
@@ -165,7 +194,7 @@
                 if (appData && appData.venues[code] && appData.venues[code].status === "active") {
                     btn.classList.remove("no-data");
                 } else {
-                    btn.classList.add("no-data"); // 完璧なゴースト化
+                    btn.classList.add("no-data");
                 }
                 
                 if (code === currentVenueCode) btn.classList.add("active");
@@ -211,7 +240,6 @@
             document.getElementById("day-display").textContent = `${venueData.day_of_event}日目`;
             document.getElementById("race-title-display").textContent = `${VENUES[parseInt(currentVenueCode)-1].split("_")[1]} ${raceNum}R`;
             
-            // F情報や詳しい数値をすべて取り込む
             currentBoats = raceData.boats.map(b => ({
                 number: b.boat_number, name: b.name, player_class: b.player_class || "",
                 f_count: b.f_count || "",
@@ -252,19 +280,25 @@
         function renderExhibition(boats) {
             const container = document.getElementById("exhibition-list");
             container.innerHTML = "";
-            boats.forEach((b, i) => {
+            
+            // 【修正】ここで必ず枠番順（1号艇〜6号艇）にソートして表示する
+            const sortedByBoatNum = [...boats].sort((a, b) => a.number - b.number);
+
+            sortedByBoatNum.forEach((b, i) => {
                 const fTag = b.f_count ? `<span class="f-penalty">【${b.f_count}】</span>` : "";
-                // 上部の展示エリアは絵文字なし、2段組みのガチデータのみ！
+                // 【修正】左側（選手情報）と右側（スライダー）のコンテナに分ける
                 container.innerHTML += `
                     <div class="exh-row">
-                        <div class="boat-num c${b.number}">${b.number}</div>
-                        <div class="boat-info">
-                            <div class="name">${b.name} <span class="p-class">(${b.player_class})</span> ${fTag}</div>
-                            <div class="data-grid">
-                                <div class="data-item"><span class="data-label">全国勝率:</span><span class="data-val">${b.nat_win.toFixed(2)}</span></div>
-                                <div class="data-item"><span class="data-label">当地勝率:</span><span class="data-val">${b.local_win.toFixed(2)}</span></div>
-                                <div class="data-item"><span class="data-label">モーター2連率:</span><span class="data-val">${b.motor.toFixed(1)}%</span></div>
-                                <div class="data-item"><span class="data-label">平均ST:</span><span class="data-val">${b.st.toFixed(2)}</span></div>
+                        <div class="boat-left-container">
+                            <div class="boat-num c${b.number}">${b.number}</div>
+                            <div class="boat-info">
+                                <div class="name">${b.name} <span class="p-class">(${b.player_class})</span> ${fTag}</div>
+                                <div class="data-grid">
+                                    <div class="data-item"><span class="data-label">全国勝率:</span><span class="data-val">${b.nat_win.toFixed(2)}</span></div>
+                                    <div class="data-item"><span class="data-label">当地勝率:</span><span class="data-val">${b.local_win.toFixed(2)}</span></div>
+                                    <div class="data-item"><span class="data-label">モーター2連率:</span><span class="data-val">${b.motor.toFixed(1)}%</span></div>
+                                    <div class="data-item"><span class="data-label">平均ST:</span><span class="data-val">${b.st.toFixed(2)}</span></div>
+                                </div>
                             </div>
                         </div>
                         <div class="sliders-container">
@@ -282,7 +316,6 @@
             const container = document.getElementById("index-list");
             container.innerHTML = "";
             boats.forEach((b, i) => {
-                // 下部のランキングエリアにだけ絵文字タグを爆発させる！
                 const tagsHtml = b.tags.map(t => `<span class="tag">${t}</span>`).join("");
                 container.innerHTML += `
                     <div class="index-row">
