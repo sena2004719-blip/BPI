@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-02-21T11:27:28.080941",
+  "updated_at": "2026-02-21T11:44:21.232207",
   "meta": {
     "status": "success",
     "errors": []
@@ -7,6 +7,7 @@
   "venues": {
     "01": {
       "status": "active",
+      "day_of_event": 5,
       "races": [
         {
           "race_number": 1,
@@ -1272,6 +1273,7 @@
     },
     "02": {
       "status": "active",
+      "day_of_event": 6,
       "races": [
         {
           "race_number": 1,
@@ -2537,6 +2539,7 @@
     },
     "03": {
       "status": "active",
+      "day_of_event": 4,
       "races": [
         {
           "race_number": 1,
@@ -3802,6 +3805,7 @@
     },
     "04": {
       "status": "active",
+      "day_of_event": 1,
       "races": [
         {
           "race_number": 1,
@@ -5067,6 +5071,7 @@
     },
     "05": {
       "status": "active",
+      "day_of_event": 6,
       "races": [
         {
           "race_number": 1,
@@ -6332,6 +6337,7 @@
     },
     "06": {
       "status": "active",
+      "day_of_event": 3,
       "races": [
         {
           "race_number": 1,
@@ -7597,6 +7603,7 @@
     },
     "07": {
       "status": "active",
+      "day_of_event": 1,
       "races": [
         {
           "race_number": 1,
@@ -8862,6 +8869,7 @@
     },
     "08": {
       "status": "active",
+      "day_of_event": 5,
       "races": [
         {
           "race_number": 1,
@@ -10127,6 +10135,7 @@
     },
     "09": {
       "status": "active",
+      "day_of_event": 4,
       "races": [
         {
           "race_number": 1,
@@ -11392,6 +11401,7 @@
     },
     "10": {
       "status": "active",
+      "day_of_event": 5,
       "races": [
         {
           "race_number": 1,
@@ -12657,6 +12667,7 @@
     },
     "11": {
       "status": "active",
+      "day_of_event": 6,
       "races": [
         {
           "race_number": 1,
@@ -13922,6 +13933,7 @@
     },
     "12": {
       "status": "active",
+      "day_of_event": 6,
       "races": [
         {
           "race_number": 1,
@@ -15187,6 +15199,7 @@
     },
     "13": {
       "status": "active",
+      "day_of_event": 5,
       "races": [
         {
           "race_number": 1,
@@ -16452,6 +16465,7 @@
     },
     "14": {
       "status": "active",
+      "day_of_event": 4,
       "races": [
         {
           "race_number": 1,
@@ -17717,6 +17731,7 @@
     },
     "15": {
       "status": "active",
+      "day_of_event": 1,
       "races": [
         {
           "race_number": 1,
@@ -18982,6 +18997,7 @@
     },
     "16": {
       "status": "active",
+      "day_of_event": 6,
       "races": [
         {
           "race_number": 1,
@@ -20247,6 +20263,7 @@
     },
     "17": {
       "status": "active",
+      "day_of_event": 2,
       "races": [
         {
           "race_number": 1,
@@ -21512,6 +21529,7 @@
     },
     "18": {
       "status": "active",
+      "day_of_event": 3,
       "races": [
         {
           "race_number": 1,
@@ -22777,6 +22795,7 @@
     },
     "19": {
       "status": "active",
+      "day_of_event": 5,
       "races": [
         {
           "race_number": 1,
@@ -24042,6 +24061,7 @@
     },
     "20": {
       "status": "active",
+      "day_of_event": 6,
       "races": [
         {
           "race_number": 1,
@@ -25307,6 +25327,7 @@
     },
     "21": {
       "status": "active",
+      "day_of_event": 1,
       "races": [
         {
           "race_number": 1,
@@ -26572,6 +26593,7 @@
     },
     "22": {
       "status": "active",
+      "day_of_event": 4,
       "races": [
         {
           "race_number": 1,
@@ -27837,6 +27859,7 @@
     },
     "23": {
       "status": "active",
+      "day_of_event": 5,
       "races": [
         {
           "race_number": 1,
@@ -29102,6 +29125,7 @@
     },
     "24": {
       "status": "active",
+      "day_of_event": 3,
       "races": [
         {
           "race_number": 1,
