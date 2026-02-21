@@ -15,35 +15,26 @@
         header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
         .logo { width: 40px; height: 40px; background: #333; color: var(--accent-gold); display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; font-size: 20px; }
         
-        /* ① レース場パネル：背景と同化させる修正 */
+        /* 会場パネル：背景と同化させる（非開催） */
         .venue-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 20px; }
         @media (max-width: 600px) { .venue-grid { grid-template-columns: repeat(4, 1fr); } }
         .venue-btn { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 0; text-align: center; border-radius: 6px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
         .venue-btn.active { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); }
-        
-        /* 非開催場：背景色とほぼ同じにして存在感を消す */
-        .venue-btn.no-data { 
-            background: rgba(255, 255, 255, 0.02) !important; 
-            border-color: transparent !important; 
-            color: #2d3748 !important; /* 背景のグレーに近い色 */
-            pointer-events: none; 
-            box-shadow: none; 
-        }
+        .venue-btn.no-data { background: rgba(255, 255, 255, 0.02) !important; border-color: transparent !important; color: #2d3748 !important; pointer-events: none; }
         
         .controls { display: flex; flex-wrap: wrap; gap: 15px; align-items: flex-end; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
         .control-group { display: flex; flex-direction: column; gap: 5px; }
-        .control-group label { font-size: 12px; color: var(--text-sub); }
-        .day-display { font-size: 16px; font-weight: bold; color: var(--accent-gold); padding-top: 4px; padding-bottom: 4px; }
+        .control-group label { font-size: 11px; color: var(--text-sub); }
+        .fixed-date { font-size: 16px; font-weight: bold; color: var(--text-main); background: var(--bg-card); padding: 8px 15px; border-radius: 6px; border: 1px solid var(--border-color); }
+        .day-display { font-size: 16px; font-weight: bold; color: var(--accent-gold); padding: 8px 0; }
         
-        /* フォーム部品 */
-        input[type="date"], select, input[type="number"], input[type="text"] { background: var(--bg-card); color: white; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 14px; outline: none; }
+        select, input[type="number"] { background: var(--bg-card); color: white; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 6px; font-size: 14px; outline: none; }
         
         .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin-bottom: 20px; }
         .card-header { font-size: 15px; font-weight: bold; margin-bottom: 15px; }
         
-        /* ② 出走表レイアウト（左50% / 右50% 分割） */
+        /* 出走表レイアウト（左右半々） */
         .exh-row { display: flex; gap: 20px; padding: 15px; border-bottom: 1px solid var(--border-color); align-items: center; }
-        
         .boat-left-container { flex: 1; display: flex; align-items: center; gap: 15px; }
         .boat-num { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px; flex-shrink: 0; box-shadow: 0 2px 4px rgba(0,0,0,0.5); border: 1px solid;}
         .c1 { background: #ffffff; color: #000000; border-color: #cbd5e1; }
@@ -55,51 +46,39 @@
 
         .boat-info { flex: 1; }
         .boat-info .name { font-weight: bold; font-size: 16px; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;}
-        .p-class { font-size: 12px; color: var(--text-sub); font-weight: normal; }
-        .f-penalty { color: #ef4444; font-weight: bold; font-size: 13px; border: 1px solid #ef4444; padding: 1px 6px; border-radius: 4px; background: rgba(239, 68, 68, 0.1); }
+        .p-class { font-size: 12px; color: var(--text-sub); }
+        .f-penalty { color: #ef4444; font-weight: bold; font-size: 11px; border: 1px solid #ef4444; padding: 1px 4px; border-radius: 4px; }
         
-        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05);}
-        .data-item { display: flex; justify-content: space-between; align-items: center; }
-        .data-label { color: var(--text-sub); }
-        .data-val { font-weight: bold; color: var(--text-main); font-family: monospace; font-size: 13px;}
+        .data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px; background: rgba(0,0,0,0.2); padding: 8px 12px; border-radius: 6px; }
+        .data-val { font-weight: bold; color: var(--text-main); font-family: monospace; }
 
-        /* 展示入力エリア（右側） */
-        .exh-right-container { flex: 1; display: flex; gap: 15px; align-items: stretch; }
-        .sliders-area { width: 60%; display: flex; flex-direction: column; gap: 10px; background: var(--bg-box); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); }
-        .slider-group { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-sub); }
-        input[type=range] { -webkit-appearance: none; width: 75%; height: 6px; background: #333; border-radius: 3px; }
+        /* 展示入力（右側） */
+        .exh-right-container { flex: 1; display: flex; gap: 15px; align-items: center; }
+        .sliders-area { flex: 1; display: flex; flex-direction: column; gap: 8px; background: var(--bg-box); padding: 10px; border-radius: 8px; border: 1px solid var(--border-color); }
+        .slider-group { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
+        input[type=range] { -webkit-appearance: none; width: 70%; height: 6px; background: #333; border-radius: 3px; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: var(--accent-blue); cursor: pointer; }
-
-        .inputs-area { width: 40%; display: flex; flex-direction: column; justify-content: center; }
-        .time-input { width: 100%; text-align: center; font-weight: bold; font-family: monospace; font-size: 18px; padding: 12px; border-radius: 6px; background: rgba(0,0,0,0.3);}
+        .time-input { width: 80px; text-align: center; font-weight: bold; font-size: 18px; padding: 10px; border-radius: 6px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); color: white; }
         
-        /* 下部：指数ランキング */
+        /* ランキング */
         .index-row { display: flex; align-items: center; gap: 15px; padding: 12px; background: var(--bg-box); border-radius: 8px; margin-bottom: 10px; border: 1px solid var(--border-color); }
-        .index-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; width: 100%; }
-        .tag { font-size: 11px; background: rgba(255,255,255,0.08); padding: 4px 8px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.15); font-weight: bold;}
-        .index-mark { width: 30px; text-align: center; font-weight: bold; font-size: 18px; }
+        .tag { font-size: 10px; background: rgba(255,255,255,0.08); padding: 3px 7px; border-radius: 10px; margin-right: 4px; font-weight: bold;}
         .index-score { font-size: 22px; font-weight: bold; width: 60px; text-align: right; color: var(--accent-gold); }
-        .rank { font-size: 12px; color: var(--text-sub); font-weight: bold; }
         
         .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .dash-box { background: var(--bg-box); padding: 15px; border-radius: 8px; display: flex; flex-direction: column; gap: 5px; border: 1px solid var(--border-color); }
-        
-        @media (max-width: 900px) { .exh-row { flex-direction: column; } .boat-left-container, .exh-right-container { width: 100%; } }
+        @media (max-width: 900px) { .exh-row { flex-direction: column; } .boat-left-container, .exh-right-container { width: 100%; } .dashboard-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
     <header>
         <div class="logo">G</div>
-        <div class="header-title"><h1>GOLDEN INDEX 完全版</h1><p id="last-updated">データ: 読込中...</p></div>
+        <div class="header-title"><h1>GOLDEN INDEX 完全版</h1><p id="last-updated">データ読込中...</p></div>
     </header>
 
     <div class="venue-grid" id="venue-grid"></div>
 
     <nav class="controls">
-        <div class="control-group">
-            <label>日付</label>
-            <input type="date" id="date-select">
-        </div>
+        <div class="control-group"><label>解析対象日</label><div id="date-display" class="fixed-date">-</div></div>
         <div class="control-group">
             <label>R (レース)</label>
             <select id="race-select">
@@ -110,12 +89,12 @@
             </select>
         </div>
         <div class="control-group"><label>開催日数</label><div id="day-display" class="day-display">-</div></div>
-        <div class="control-group"><label>予算(円)</label><input type="number" id="budget-input" value="5000" step="100"></div>
+        <div class="control-group"><label>予算(円)</label><input type="number" id="budget-input" value="5000"></div>
     </nav>
 
     <main id="main-content">
-        <section class="card" id="exhibition-section">
-            <div class="card-header"><span id="race-title-display"></span> 展示データ入力</div>
+        <section class="card">
+            <div class="card-header"><span id="race-title-display"></span> 出走表 / 展示入力</div>
             <div id="exhibition-list"></div>
         </section>
 
@@ -123,13 +102,16 @@
             <section class="card">
                 <div class="card-header">結論ダッシュボード</div>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div class="dash-box"><span style="font-size:12px;color:var(--text-sub);">レースタイプ</span><span id="dash-type" style="font-size:18px;font-weight:bold;">-</span></div>
-                    <div class="dash-box"><span style="font-size:12px;color:var(--text-sub);">注意喚起</span><span id="dash-warning" style="font-size:18px;font-weight:bold;color:#ef4444;">-</span></div>
+                    <div style="background:var(--bg-box);padding:15px;border-radius:8px;">
+                        <span style="font-size:11px;color:var(--text-sub);">タイプ</span><br><span id="dash-type" style="font-size:18px;font-weight:bold;">-</span>
+                    </div>
+                    <div style="background:var(--bg-box);padding:15px;border-radius:8px;">
+                        <span style="font-size:11px;color:var(--text-sub);">注意</span><br><span id="dash-warning" style="font-size:16px;font-weight:bold;color:#ef4444;">-</span>
+                    </div>
                 </div>
             </section>
             <section class="card">
                 <div class="card-header">当日指数ランキング</div>
-                <div id="weight-info" style="font-size: 11px; color: var(--text-sub); margin-bottom: 10px;"></div>
                 <div id="index-list"></div>
             </section>
         </div>
@@ -140,192 +122,128 @@
         let currentBoats = []; 
         let currentVenueCode = null;
         
-        const VENUES = [
-            "01_桐生", "02_戸田", "03_江戸川", "04_平和島", "05_多摩川", "06_浜名湖",
-            "07_蒲郡", "08_常滑", "09_津", "10_三国", "11_びわこ", "12_住之江",
-            "13_尼崎", "14_鳴門", "15_丸亀", "16_児島", "17_宮島", "18_徳山",
-            "19_下関", "20_若松", "21_芦屋", "22_福岡", "23_唐津", "24_大村"
-        ];
+        const VENUES = ["桐生", "戸田", "江戸川", "平和島", "多摩川", "浜名湖", "蒲郡", "常滑", "津", "三国", "びわこ", "住之江", "尼崎", "鳴門", "丸亀", "児島", "宮島", "徳山", "下関", "若松", "芦屋", "福岡", "唐津", "大村"];
 
-        document.addEventListener("DOMContentLoaded", () => {
-            // ③ 日付の初期値を今日に固定（青枠の修正）
-            const today = new Date();
-            const y = today.getFullYear();
-            const m = String(today.getMonth() + 1).padStart(2, '0');
-            const d = String(today.getDate()).padStart(2, '0');
-            document.getElementById("date-select").value = `${y}-${m}-${d}`;
-
-            fetchData();
-            document.getElementById("race-select").addEventListener("change", () => loadRaceData());
-            document.getElementById("date-select").addEventListener("change", () => buildVenueGrid());
-        });
-
-        // ① レース場のグレーアウト判定（赤枠の修正）
-        function buildVenueGrid() {
-            const grid = document.getElementById("venue-grid");
-            grid.innerHTML = "";
-            VENUES.forEach((v, i) => {
-                const code = String(i + 1).padStart(2, '0');
-                const btn = document.createElement("div");
-                btn.className = "venue-btn";
-                btn.textContent = v.split("_")[1];
-                
-                // データがある会場（racesが1つでもある場合）のみアクティブにする
-                const hasData = appData && appData.venues[code] && 
-                                appData.venues[code].races && 
-                                appData.venues[code].races.length > 0;
-                
-                if (hasData) {
-                    btn.classList.remove("no-data");
-                } else {
-                    btn.classList.add("no-data");
-                }
-                
-                if (code === currentVenueCode) btn.classList.add("active");
-                btn.addEventListener("click", () => { 
-                    currentVenueCode = code; 
-                    buildVenueGrid(); 
-                    loadRaceData(); 
-                });
-                grid.appendChild(btn);
-            });
-        }
+        document.addEventListener("DOMContentLoaded", fetchData);
+        document.getElementById("race-select").addEventListener("change", loadRaceData);
 
         async function fetchData() {
             try {
                 const response = await fetch('data/db.json?t=' + new Date().getTime());
                 appData = await response.json();
-                const d = new Date(appData.updated_at);
-                document.getElementById("last-updated").textContent = `データ生成: ${d.toLocaleString('ja-JP')}`;
                 
-                if (!currentVenueCode) {
-                    for (let i = 1; i <= 24; i++) {
-                        let code = String(i).padStart(2, '0');
-                        if (appData.venues[code] && appData.venues[code].races && appData.venues[code].races.length > 0) {
-                            currentVenueCode = code; break;
-                        }
+                // 日付表示（最新のデータから取得）
+                const d = new Date(appData.updated_at);
+                document.getElementById("last-updated").textContent = `更新: ${d.toLocaleString('ja-JP')}`;
+                document.getElementById("date-display").textContent = `${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}`;
+                
+                // 最初の開催場を自動選択
+                for (let i = 1; i <= 24; i++) {
+                    let code = String(i).padStart(2, '0');
+                    if (appData.venues[code]?.races?.length > 0) {
+                        currentVenueCode = code; break;
                     }
                 }
                 buildVenueGrid(); loadRaceData();
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error("データ読込エラー", e); }
+        }
+
+        function buildVenueGrid() {
+            const grid = document.getElementById("venue-grid");
+            grid.innerHTML = "";
+            for (let i = 1; i <= 24; i++) {
+                const code = String(i).padStart(2, '0');
+                const btn = document.createElement("div");
+                btn.className = "venue-btn";
+                btn.textContent = VENUES[i-1];
+                
+                // レースデータが1件以上ある場だけを明るくする
+                const active = appData?.venues[code]?.races?.length > 0;
+                btn.classList.add(active ? (code === currentVenueCode ? "active" : "enabled") : "no-data");
+                
+                btn.onclick = () => { if(active){ currentVenueCode = code; buildVenueGrid(); loadRaceData(); } };
+                grid.appendChild(btn);
+            }
         }
 
         function loadRaceData() {
-            if (!appData || !currentVenueCode) return;
             const raceNum = parseInt(document.getElementById("race-select").value);
-            const venueData = appData.venues[currentVenueCode];
+            const venue = appData.venues[currentVenueCode];
+            const race = venue?.races.find(r => r.race_number === raceNum);
             
-            if (!venueData || !venueData.races || venueData.races.length === 0) {
-                document.getElementById("main-content").style.display = "none";
-                return;
-            }
-            
-            const raceData = venueData.races.find(r => r.race_number === raceNum);
-            if (!raceData) { document.getElementById("main-content").style.display = "none"; return; }
-            
+            if (!race) { document.getElementById("main-content").style.display = "none"; return; }
             document.getElementById("main-content").style.display = "block";
-            document.getElementById("day-display").textContent = `${venueData.day_of_event}日目`;
-            document.getElementById("race-title-display").textContent = `${VENUES[parseInt(currentVenueCode)-1].split("_")[1]} ${raceNum}R`;
+            document.getElementById("day-display").textContent = `${venue.day_of_event}日目`;
+            document.getElementById("race-title-display").textContent = `${VENUES[parseInt(currentVenueCode)-1]} ${raceNum}R`;
             
-            // ② 【強力ロック】出走表を必ず「枠番順(1〜6)」で固定する
-            let rawBoats = raceData.boats.map(b => ({
-                number: b.boat_number, name: b.name, player_class: b.player_class || "",
-                f_count: b.f_count || "",
-                nat_win: b.national_win_rate || 0.0, local_win: b.local_win_rate || 0.0,
-                motor: b.motor_2ren, st: b.st_avg, time: b.exhibition_time || 6.70,
-                base_index: b.base_index, today_index: b.today_index, tags: b.tags || []
+            // 枠番順にソートして保持
+            currentBoats = race.boats.sort((a, b) => a.boat_number - b.boat_number).map(b => ({
+                ...b, today_index: b.today_index // 初期値
             }));
-            
-            currentBoats = rawBoats.sort((a, b) => a.number - b.number);
 
-            renderExhibition(currentBoats);
-            updateUI(false); 
+            renderExhibition(); updateUI(false); 
         }
 
-        function updateUI(isRecalculate) {
-            const venueData = appData.venues[currentVenueCode];
-            const dayOfEvent = venueData ? (venueData.day_of_event || 1) : 1;
-
-            if (isRecalculate) {
-                const rows = document.querySelectorAll(".exh-row");
-                rows.forEach((row, idx) => {
-                    const sliders = row.querySelectorAll("input[type=range]");
-                    const exhScore = ((parseInt(sliders[0].value) + parseInt(sliders[1].value) + parseInt(sliders[2].value)) / 30) * 100;
-                    let wB = dayOfEvent <= 2 ? 0.7 : 0.3, wE = 1.0 - wB;
-                    currentBoats[idx].today_index = (currentBoats[idx].base_index * wB) + (exhScore * wE);
-                    document.getElementById("weight-info").textContent = `重みバランス: 基礎 ${Math.round(wB*100)}% / 展示 ${Math.round(wE*100)}%`;
-                });
-            }
-
-            let sortedBoats = [...currentBoats].sort((a, b) => b.today_index - a.today_index);
-            const marks = ["◎", "○", "△", "×", "×", ""];
-            sortedBoats.forEach((b, i) => b.mark = marks[i]);
-
-            renderIndexList(sortedBoats);
-            renderDashboard(sortedBoats);
-        }
-
-        function renderExhibition(boats) {
+        function renderExhibition() {
             const container = document.getElementById("exhibition-list");
             container.innerHTML = "";
-            boats.forEach((b, i) => {
-                const fTag = b.f_count ? `<span class="f-penalty">【${b.f_count}】</span>` : "";
+            currentBoats.forEach((b, i) => {
+                const fTag = b.f_count ? `<span class="f-penalty">${b.f_count}</span>` : "";
                 container.innerHTML += `
                     <div class="exh-row">
                         <div class="boat-left-container">
-                            <div class="boat-num c${b.number}">${b.number}</div>
+                            <div class="boat-num c${b.boat_number}">${b.boat_number}</div>
                             <div class="boat-info">
                                 <div class="name">${b.name} <span class="p-class">(${b.player_class})</span> ${fTag}</div>
                                 <div class="data-grid">
-                                    <div class="data-item"><span class="data-label">全国:</span><span class="data-val">${b.nat_win.toFixed(2)}</span></div>
-                                    <div class="data-item"><span class="data-label">当地:</span><span class="data-val">${b.local_win.toFixed(2)}</span></div>
-                                    <div class="data-item"><span class="data-label">モーター:</span><span class="data-val">${b.motor.toFixed(1)}%</span></div>
-                                    <div class="data-item"><span class="data-label">平均ST:</span><span class="data-val">${b.st.toFixed(2)}</span></div>
+                                    <div class="data-item">全国 <span class="data-val">${b.national_win_rate.toFixed(2)}</span></div>
+                                    <div class="data-item">当地 <span class="data-val">${b.local_win_rate.toFixed(2)}</span></div>
+                                    <div class="data-item">モータ <span class="data-val">${b.motor_2ren.toFixed(1)}%</span></div>
+                                    <div class="data-item">平均ST <span class="data-val">${b.st_avg.toFixed(2)}</span></div>
                                 </div>
                             </div>
                         </div>
                         <div class="exh-right-container">
                             <div class="sliders-area">
-                                <div class="slider-group">行 <input type="range" min="0" max="10" value="5"></div>
-                                <div class="slider-group">伸 <input type="range" min="0" max="10" value="5"></div>
-                                <div class="slider-group">回 <input type="range" min="0" max="10" value="5"></div>
+                                <div class="slider-group">行 <input type="range" min="0" max="10" value="5" oninput="updateUI(true)"></div>
+                                <div class="slider-group">伸 <input type="range" min="0" max="10" value="5" oninput="updateUI(true)"></div>
+                                <div class="slider-group">回 <input type="range" min="0" max="10" value="5" oninput="updateUI(true)"></div>
                             </div>
-                            <div class="inputs-area">
-                                <input type="number" step="0.01" class="time-input" value="${b.time}">
-                            </div>
+                            <input type="number" step="0.01" class="time-input" value="${b.exhibition_time || 6.70}" oninput="updateUI(true)">
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
-            container.querySelectorAll("input").forEach(inp => inp.addEventListener("input", () => updateUI(true)));
         }
 
-        function renderIndexList(boats) {
-            const container = document.getElementById("index-list");
-            container.innerHTML = "";
-            boats.forEach((b, i) => {
-                const tagsHtml = b.tags.map(t => `<span class="tag">${t}</span>`).join("");
-                container.innerHTML += `
+        function updateUI(recalc) {
+            if (recalc) {
+                const day = appData.venues[currentVenueCode].day_of_event || 1;
+                const rows = document.querySelectorAll(".exh-row");
+                rows.forEach((row, i) => {
+                    const sliders = row.querySelectorAll("input[type=range]");
+                    const exh = ((parseInt(sliders[0].value) + parseInt(sliders[1].value) + parseInt(sliders[2].value)) / 30) * 100;
+                    let wB = day <= 2 ? 0.7 : 0.3;
+                    currentBoats[i].today_index = (currentBoats[i].base_index * wB) + (exh * (1-wB));
+                });
+            }
+            const sorted = [...currentBoats].sort((a, b) => b.today_index - a.today_index);
+            const marks = ["◎", "○", "△", "×", "×", ""];
+            
+            const list = document.getElementById("index-list");
+            list.innerHTML = "";
+            sorted.forEach((b, i) => {
+                const tags = b.tags.map(t => `<span class="tag">${t}</span>`).join("");
+                list.innerHTML += `
                     <div class="index-row">
-                        <div class="boat-num c${b.number}" style="width:30px;height:30px;font-size:14px;">${b.number}</div>
-                        <div style="flex:1;">
-                            <div style="font-weight:bold;">${b.name} <span style="font-size:11px;font-weight:normal;color:var(--text-sub);">(${b.player_class})</span></div>
-                            <div class="index-tags">${tagsHtml}</div>
-                        </div>
-                        <div class="index-mark">${b.mark}</div>
+                        <div class="boat-num c${b.boat_number}" style="width:28px;height:28px;font-size:13px;">${b.boat_number}</div>
+                        <div style="flex:1;"><div style="font-weight:bold;">${b.name}</div><div style="margin-top:4px;">${tags}</div></div>
+                        <div style="font-size:18px;font-weight:bold;width:30px;">${marks[i]}</div>
                         <div class="index-score">${b.today_index.toFixed(1)}</div>
-                        <div class="rank">${i + 1}位</div>
-                    </div>
-                `;
+                    </div>`;
             });
-        }
 
-        function renderDashboard(boats) {
-            const isChaos = boats[0].number !== 1;
-            document.getElementById("dash-type").textContent = isChaos ? "波乱含み" : "イン有利";
-            const warn = document.getElementById("dash-warning");
-            warn.textContent = isChaos ? `危険: ${boats[0].number}号艇まくり警戒` : "安定: 逃げ展開";
-            warn.style.color = isChaos ? "#ef4444" : "var(--text-sub)";
+            document.getElementById("dash-type").textContent = sorted[0].boat_number === 1 ? "イン逃げ濃厚" : "波乱の予感";
+            document.getElementById("dash-warning").textContent = sorted[0].boat_number !== 1 ? `${sorted[0].boat_number}号艇の逆転あり` : "安定展開";
         }
     </script>
 </body>
